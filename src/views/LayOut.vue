@@ -14,8 +14,8 @@
           <el-submenu index="2">
             <template slot="title"><i class="el-icon-menu"></i>数据可视化</template>
             <el-menu-item-group v-show='true'>
-              <el-menu-item index="2-1">文章分析</el-menu-item>
-              <el-menu-item index="2-2">IP分析</el-menu-item>
+              <el-menu-item index="2-1" @click="$router.push('/articleAnalysis')">文章分析</el-menu-item>
+              <el-menu-item index="2-2" @click="$router.push('/regionAnalysis')">IP分析</el-menu-item>
               <el-menu-item index="2-3">评论分析</el-menu-item>
               <el-menu-item index="2-4">舆情分析</el-menu-item>
             </el-menu-item-group>

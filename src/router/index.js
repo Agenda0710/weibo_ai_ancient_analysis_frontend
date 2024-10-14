@@ -4,6 +4,8 @@ import LayOut from '../views/LayOut.vue'
 import DashBoard from "@/views/DashBoard.vue";
 import HotWords from '@/views/HotWords.vue'
 import PublicSentimentStatics from "@/views/PublicSentimentStatics.vue";
+import ArticleAnalysis from "@/views/ArticleAnalysis.vue";
+import RegionAnalysis from "@/views/RegionAnalysis.vue";
 
 Vue.use(VueRouter)
 
@@ -19,9 +21,15 @@ const routes = [
         }, {
             path: 'hotWords',
             component: HotWords
-        },{
+        }, {
             path: 'publicSentimentStatics',
             component: PublicSentimentStatics
+        }, {
+            path: 'articleAnalysis',
+            component: ArticleAnalysis
+        }, {
+            path: 'regionAnalysis',
+            component: RegionAnalysis
         }
         ]
     },
