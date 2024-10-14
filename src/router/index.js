@@ -6,6 +6,7 @@ import HotWords from '@/views/HotWords.vue'
 import PublicSentimentStatics from "@/views/PublicSentimentStatics.vue";
 import ArticleAnalysis from "@/views/ArticleAnalysis.vue";
 import RegionAnalysis from "@/views/RegionAnalysis.vue";
+import CommentAnalysis from "@/views/CommentAnalysis.vue";
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,9 @@ const routes = [
         }, {
             path: 'regionAnalysis',
             component: RegionAnalysis
+        },{
+            path: 'commentAnalysis',
+            component: CommentAnalysis
         }
         ]
     },

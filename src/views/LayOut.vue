@@ -16,7 +16,7 @@
             <el-menu-item-group v-show='true'>
               <el-menu-item index="2-1" @click="$router.push('/articleAnalysis')">文章分析</el-menu-item>
               <el-menu-item index="2-2" @click="$router.push('/regionAnalysis')">IP分析</el-menu-item>
-              <el-menu-item index="2-3">评论分析</el-menu-item>
+              <el-menu-item index="2-3" @click="$router.push('/commentAnalysis')">评论分析</el-menu-item>
               <el-menu-item index="2-4">舆情分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
