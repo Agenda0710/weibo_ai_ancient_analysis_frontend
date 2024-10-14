@@ -8,7 +8,7 @@
             <el-menu-item-group v-show='true'>
               <el-menu-item index="1-1" @click="$router.push('/dashBoard')">首页</el-menu-item>
               <el-menu-item index="1-2" @click="$router.push('/hotWords')">热词统计</el-menu-item>
-              <el-menu-item index="1-3">微博舆情统计</el-menu-item>
+              <el-menu-item index="1-3" @click="$router.push('/publicSentimentStatics')">微博舆情统计</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -47,7 +47,7 @@
 </script>
 
 <style>
-.el-header{
+.el-header {
   background-color: #B3C0D1;
   color: #333;
   text-align: center;

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import LayOut from '../views/LayOut.vue'
 import DashBoard from "@/views/DashBoard.vue";
 import HotWords from '@/views/HotWords.vue'
+import PublicSentimentStatics from "@/views/PublicSentimentStatics.vue";
 
 Vue.use(VueRouter)
 
@@ -18,7 +19,10 @@ const routes = [
         }, {
             path: 'hotWords',
             component: HotWords
-        },
+        },{
+            path: 'publicSentimentStatics',
+            component: PublicSentimentStatics
+        }
         ]
     },
 ]
