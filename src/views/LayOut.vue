@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1', '2', '3']">
+        <el-menu :default-openeds="['1', '2', '3','4']">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>首页</template>
             <el-menu-item-group v-show='true'>
@@ -17,13 +17,19 @@
               <el-menu-item index="2-1" @click="$router.push('/articleAnalysis')">文章分析</el-menu-item>
               <el-menu-item index="2-2" @click="$router.push('/regionAnalysis')">IP分析</el-menu-item>
               <el-menu-item index="2-3" @click="$router.push('/commentAnalysis')">评论分析</el-menu-item>
-              <el-menu-item index="2-4">舆情分析</el-menu-item>
+              <el-menu-item index="2-4" @click="$router.push('/sentimentAnalysis')">舆情分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title"><i class="el-icon-setting"></i>词云图</template>
             <el-menu-item-group v-show='true'>
-              <el-menu-item index="3-1">文章内容词云图</el-menu-item>
+              <el-menu-item index="3-1" @click="$router.push('/articleContentWordCloud')">文章内容词云图</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="4">
+            <template slot="title"><i class="el-icon-collection"></i>实时热搜</template>
+            <el-menu-item-group v-show='true'>
+              <el-menu-item index="3-1" @click="$router.push('/hotSearchAnalysis')">热搜分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

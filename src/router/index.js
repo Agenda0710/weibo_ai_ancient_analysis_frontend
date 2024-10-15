@@ -7,6 +7,9 @@ import PublicSentimentStatics from "@/views/PublicSentimentStatics.vue";
 import ArticleAnalysis from "@/views/ArticleAnalysis.vue";
 import RegionAnalysis from "@/views/RegionAnalysis.vue";
 import CommentAnalysis from "@/views/CommentAnalysis.vue";
+import SentimentAnalysis from "@/views/SentimentAnalysis.vue";
+import ArticleContentWordCloud from "@/views/ArticleContentWordCloud.vue";
+import HotSearchAnalysis from "@/views/HotSearchAnalysis.vue";
 
 Vue.use(VueRouter)
 
@@ -31,9 +34,18 @@ const routes = [
         }, {
             path: 'regionAnalysis',
             component: RegionAnalysis
-        },{
+        }, {
             path: 'commentAnalysis',
             component: CommentAnalysis
+        }, {
+            path: 'sentimentAnalysis',
+            component: SentimentAnalysis
+        },{
+            path: 'articleContentWordCloud',
+            component: ArticleContentWordCloud,
+        },{
+            path: 'hotSearchAnalysis',
+            component: HotSearchAnalysis
         }
         ]
     },
