@@ -77,6 +77,7 @@
 import axios from "axios";
 import * as echarts from 'echarts'
 import 'echarts-wordcloud'
+import {Loading} from "element-ui";
 
 export default {
   name: "DashBoard",
@@ -94,6 +95,7 @@ export default {
   },
   methods: {
     fetchArticleStatistics() {
+      let loadingInstance = Loading.service({ fullscreen: true });
       axios.get('/api/article_statistics/')
           .then(response => {
             this.totalArticles = response.data.total_articles;
@@ -107,6 +109,9 @@ export default {
             this.renderPieChart();
             this.wordCloudData = response.data.wordcloud_data;
             this.renderWordCloud();
+            this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+              loadingInstance.close();
+            });
           })
           .catch(error => {
             console.error("Error fetching article statistics:", error);

@@ -1,36 +1,43 @@
 <template>
   <div>
-    <el-col :span="24">
-      <el-card>
-        <el-table :data="hotSearchData" stripe style="width: 100%">
-          <!-- 序号列 -->
-          <el-table-column
-              label="序号"
-              width="80"
-              :formatter="formatIndex">
-          </el-table-column>
-          <el-table-column prop="content" label="内容"/>
-          <el-table-column prop="description" label="描述"/>
-          <el-table-column prop="sentiment" label="情感"/>
-        </el-table>
-      </el-card>
-    </el-col>
-    <el-pagination
-        background
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        :total="total"
-        @current-change="handlePageChange">
-    </el-pagination>
-    <div>
-      <div ref="sentimentChart" style="width: 600px;height:400px;"></div>
-    </div>
+    <el-row>
+      <el-col :span="24">
+        <el-card>
+          <el-table :data="hotSearchData" stripe style="width: 100%">
+            <!-- 序号列 -->
+            <el-table-column
+                label="序号"
+                width="100"
+                :formatter="formatIndex">
+            </el-table-column>
+            <el-table-column prop="content" label="内容"/>
+            <el-table-column prop="description" label="描述"/>
+            <el-table-column prop="sentiment" label="情感"/>
+          </el-table>
+          <div>
+            <el-pagination
+                background
+                :current-page.sync="currentPage"
+                :page-size="pageSize"
+                :total="total"
+                @current-change="handlePageChange">
+            </el-pagination>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row>
+      <div>
+        <div ref="sentimentChart" style="width:100%;height:400px;margin: 0 auto"></div>
+      </div>
+    </el-row>
   </div>
 </template>
 
 <script>
 import * as echarts from 'echarts';
 import axios from 'axios';
+import { Loading } from 'element-ui';
 
 export default {
   data() {
@@ -47,6 +54,7 @@ export default {
   },
   methods: {
     fetchHotSearchData() {
+      let loadingInstance = Loading.service({ fullscreen: true });
       axios.get('/api/getHotSearchData/', {
         params: {
           page: this.currentPage,
@@ -56,6 +64,9 @@ export default {
         this.hotSearchData = response.data.hot_search_data;
         this.total = response.data.total;
         this.sentimentCount = response.data.sentiment_count
+        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+          loadingInstance.close();
+        });
         this.initSentimentChart();
       }).catch(error => {
         console.error("Error fetching data:", error);

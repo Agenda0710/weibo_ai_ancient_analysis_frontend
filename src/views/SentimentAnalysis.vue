@@ -33,6 +33,7 @@
 <script>
 import axios from "axios";
 import * as echarts from 'echarts'
+import {Loading} from "element-ui";
 
 export default {
   name: "SentimentAnalysis",
@@ -49,6 +50,7 @@ export default {
   },
   methods: {
     fetchData() {
+      let loadingInstance = Loading.service({fullscreen: true});
       axios.get('/api/sentimentAnalysis/').then(response => {
         this.keywordsSentimentData = response.data.keywords_sentiment;
         this.articleSentimentData = response.data.article_sentiment;
@@ -58,6 +60,9 @@ export default {
         this.initTreeMapChart();
         this.initNestedPieChart();
         this.initKeywordsBarChart();
+        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+          loadingInstance.close();
+        });
       })
     },
     initKeywordsSentimentChart() {

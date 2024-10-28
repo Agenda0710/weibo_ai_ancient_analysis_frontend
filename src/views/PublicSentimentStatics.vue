@@ -87,6 +87,7 @@
 
 <script>
 import axios from "axios";
+import {Loading} from "element-ui";
 
 export default {
   name: "PublicSentimentStatics",
@@ -100,6 +101,7 @@ export default {
   },
   methods: {
     fetchPublicSentimentData() {
+      let loadingInstance = Loading.service({fullscreen: true});
       axios.get("/api/articles/", {
         params: {
           page: this.currentPage,
@@ -108,6 +110,9 @@ export default {
       }).then((response) => {
         this.allArticleData = response.data.data;
         this.total = response.data.total;
+        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+          loadingInstance.close();
+        });
       });
     },
     viewArticle(url) {

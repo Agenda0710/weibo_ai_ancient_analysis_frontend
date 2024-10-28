@@ -114,6 +114,7 @@ export default {
     selectedWordDetails() {
       return this.hotWordsList.find(word => word.word === this.selectedWord);
     }
+
   },
   methods: {
     fetchHotWordsData() {
