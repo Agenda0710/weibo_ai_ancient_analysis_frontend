@@ -3,33 +3,30 @@
     <el-row>
       <el-col :span="24">
         <el-card>
-          <el-table :data="hotSearchData" stripe style="width: 100%">
+          <el-table :data="hotSearchData" stripe style="width: 100%" v-loading="loading">
             <!-- 序号列 -->
             <el-table-column
                 label="序号"
-                width="100"
-                :formatter="formatIndex">
+                width="120">
+              <template slot-scope="scope">
+                {{ scope.$index + 1 }}
+              </template>
             </el-table-column>
             <el-table-column prop="content" label="内容"/>
             <el-table-column prop="description" label="描述"/>
             <el-table-column prop="sentiment" label="情感"/>
           </el-table>
-          <div>
-            <el-pagination
-                background
-                :current-page.sync="currentPage"
-                :page-size="pageSize"
-                :total="total"
-                @current-change="handlePageChange">
-            </el-pagination>
-          </div>
         </el-card>
       </el-col>
     </el-row>
     <el-row>
-      <div>
-        <div ref="sentimentChart" style="width:100%;height:400px;margin: 0 auto"></div>
-      </div>
+      <el-col :span="6"></el-col>
+      <el-col :span="12">
+        <el-card>
+          <div ref="sentimentChart" style="width:100%;height:400px;margin: 0 auto"></div>
+        </el-card>
+      </el-col>
+      <el-col :span="6"></el-col>
     </el-row>
   </div>
 </template>
@@ -37,16 +34,14 @@
 <script>
 import * as echarts from 'echarts';
 import axios from 'axios';
-import { Loading } from 'element-ui';
+
 
 export default {
   data() {
     return {
       hotSearchData: [],
-      total: 0,
-      currentPage: 1,
-      pageSize: 10,
-      sentimentCount: []
+      sentimentCount: [],
+      loading: true,
     };
   },
   mounted() {
@@ -54,19 +49,10 @@ export default {
   },
   methods: {
     fetchHotSearchData() {
-      let loadingInstance = Loading.service({ fullscreen: true });
-      axios.get('/api/getHotSearchData/', {
-        params: {
-          page: this.currentPage,
-          page_size: this.pageSize
-        }
-      }).then(response => {
+      axios.get('/api/getHotSearchData/').then(response => {
         this.hotSearchData = response.data.hot_search_data;
-        this.total = response.data.total;
         this.sentimentCount = response.data.sentiment_count
-        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-          loadingInstance.close();
-        });
+        this.loading = false
         this.initSentimentChart();
       }).catch(error => {
         console.error("Error fetching data:", error);
@@ -106,10 +92,11 @@ export default {
       };
       myChart.setOption(option);
     },
-    handlePageChange(page) {
-      this.currentPage = page;
-      this.fetchHotSearchData();
-    }
   }
 };
 </script>
+<style>
+.el-col {
+  min-height: 1px
+}
+</style>

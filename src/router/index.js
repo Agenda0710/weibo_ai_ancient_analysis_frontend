@@ -10,6 +10,7 @@ import CommentAnalysis from "@/views/CommentAnalysis.vue";
 import SentimentAnalysis from "@/views/SentimentAnalysis.vue";
 import ArticleContentWordCloud from "@/views/ArticleContentWordCloud.vue";
 import HotSearchAnalysis from "@/views/HotSearchAnalysis.vue";
+import CurrentNewsAnalysis from "@/views/currentNewsAnalysis.vue";
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,9 @@ const routes = [
         },{
             path: 'hotSearchAnalysis',
             component: HotSearchAnalysis
+        },{
+            path: 'currentNewsAnalysis',
+            component: CurrentNewsAnalysis
         }
         ]
     },

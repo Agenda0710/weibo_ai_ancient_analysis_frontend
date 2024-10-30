@@ -6,6 +6,7 @@
           <el-table
               :data="allArticleData"
               style="width: 100%;"
+              v-loading="loading"
           >
             <el-table-column
                 prop="articleId"
@@ -76,7 +77,8 @@
                 @current-change="handlePageChange"
                 :current-page="currentPage"
                 :page-size="pageSize"
-                :total="total">
+                :total="total"
+            >
             </el-pagination>
           </div>
         </el-card>
@@ -87,7 +89,6 @@
 
 <script>
 import axios from "axios";
-import {Loading} from "element-ui";
 
 export default {
   name: "PublicSentimentStatics",
@@ -97,28 +98,27 @@ export default {
       total: 0,
       currentPage: 1,
       pageSize: 6,
+      loading: true,
     };
   },
   methods: {
     fetchPublicSentimentData() {
-      let loadingInstance = Loading.service({fullscreen: true});
       axios.get("/api/articles/", {
         params: {
           page: this.currentPage,
           page_size: this.pageSize,
         },
       }).then((response) => {
+        this.loading = false
         this.allArticleData = response.data.data;
         this.total = response.data.total;
-        this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
-          loadingInstance.close();
-        });
       });
     },
     viewArticle(url) {
       window.open(url, "_blank"); // 跳转到文章详情页
     },
     handlePageChange(page) {
+      this.loading = true
       this.currentPage = page;
       this.fetchPublicSentimentData();
     },

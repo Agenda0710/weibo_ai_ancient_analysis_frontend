@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-container>
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu :default-openeds="['1', '2', '3','4']">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246); position: fixed; height: 100vh;">
+        <el-menu :default-openeds="['1', '2', '3','4'] ">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>首页</template>
             <el-menu-item-group v-show='true'>
@@ -29,13 +29,16 @@
           <el-submenu index="4">
             <template slot="title"><i class="el-icon-collection"></i>实时热搜</template>
             <el-menu-item-group v-show='true'>
-              <el-menu-item index="3-1" @click="$router.push('/hotSearchAnalysis')">热搜分析</el-menu-item>
+              <el-menu-item index="4-1" @click="$router.push('/hotSearchAnalysis')">热搜分析</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group v-show='true'>
+              <el-menu-item index="4-2" @click="$router.push('/currentNewsAnalysis')">新闻分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
       </el-aside>
 
-      <el-container>
+      <el-container style="margin-left: 200px;">
         <el-header>
           微博舆情分析
         </el-header>
@@ -56,7 +59,12 @@
 .el-header {
   background-color: #B3C0D1;
   color: #333;
-  text-align: center;
   line-height: 60px;
 }
+
+.el-aside {
+  color: #333;
+}
+
+
 </style>
