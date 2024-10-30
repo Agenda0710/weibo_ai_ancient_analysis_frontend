@@ -9,18 +9,18 @@
               style="width: 100%"
               v-loading="loading"
           >
-            <el-table-column label="序号" width="120">
+            <el-table-column label="序号" width="100">
               <template slot-scope="scope">
                 {{ scope.$index + 1 }}
               </template>
             </el-table-column>
 
-            <el-table-column prop="content" label="新闻内容" width="950"></el-table-column>
+            <el-table-column prop="content" label="新闻内容" width="920"></el-table-column>
 
             <el-table-column
                 prop="category"
                 label="新闻分类"
-                width="200"
+                width="180"
                 :filters="categoryFilters"
                 :filter-method="filterCategory"
                 filter-placement="bottom-end">
