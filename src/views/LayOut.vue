@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-aside width="200px" style="background-color: rgb(238, 241, 246); position: fixed; height: 100vh;">
-        <el-menu :default-openeds="['1', '2', '3','4'] ">
+        <el-menu :default-openeds="['1', '2', '3','4','5']">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>首页</template>
             <el-menu-item-group v-show='true'>
@@ -12,7 +12,7 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
-            <template slot="title"><i class="el-icon-menu"></i>数据可视化</template>
+            <template slot="title"><i class="el-icon-menu"></i>可视化</template>
             <el-menu-item-group v-show='true'>
               <el-menu-item index="2-1" @click="$router.push('/articleAnalysis')">文章分析</el-menu-item>
               <el-menu-item index="2-2" @click="$router.push('/regionAnalysis')">IP分析</el-menu-item>
@@ -33,6 +33,12 @@
             </el-menu-item-group>
             <el-menu-item-group v-show='true'>
               <el-menu-item index="4-2" @click="$router.push('/currentNewsAnalysis')">新闻分析</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title"><i class="el-icon-s-grid"></i>数据大屏</template>
+            <el-menu-item-group v-show='true'>
+              <el-menu-item index="5-1" @click="$router.push('/dataViews')">大屏展示</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>

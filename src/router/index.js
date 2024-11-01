@@ -11,6 +11,7 @@ import SentimentAnalysis from "@/views/SentimentAnalysis.vue";
 import ArticleContentWordCloud from "@/views/ArticleContentWordCloud.vue";
 import HotSearchAnalysis from "@/views/HotSearchAnalysis.vue";
 import CurrentNewsAnalysis from "@/views/currentNewsAnalysis.vue";
+import DataViews from "@/views/DataViews.vue";
 
 Vue.use(VueRouter)
 
@@ -51,8 +52,12 @@ const routes = [
             path: 'currentNewsAnalysis',
             component: CurrentNewsAnalysis
         }
-        ]
+        ],
     },
+    {
+        path: '/dataViews',
+        component: DataViews
+    }
 ]
 
 const router = new VueRouter({

@@ -39,7 +39,7 @@
           <div slot="header" class="clearfix">
             <span>评论点赞量 Top Four</span>
           </div>
-          <el-table :data="topCommentsList" border style="width: 100%;">
+          <el-table :data="topCommentsList" border style="width: 100%;height: 340px">
             <el-table-column label="昵称" prop="authorname" width="180">
             </el-table-column>
             <el-table-column label="评论" prop="content">
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     fetchArticleStatistics() {
-      let loadingInstance = Loading.service({ fullscreen: true });
+      let loadingInstance = Loading.service({fullscreen: true});
       axios.get('/api/article_statistics/')
           .then(response => {
             this.totalArticles = response.data.total_articles;
