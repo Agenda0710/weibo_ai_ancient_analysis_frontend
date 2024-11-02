@@ -58,7 +58,7 @@
             <div class="left-1">
               <dv-border-box-1>
                 <!-- 新闻情感胶囊图 编号5 右上 -->
-                <dv-capsule-chart :config="newsSentiment" style="width:300px;height:200px"/>
+                <dv-capsule-chart :config="newsSentiment" style="width:300px;height:170px"/>
                 <dv-decoration-9 style="width:350px;height:10px;"></dv-decoration-9>
               </dv-border-box-1>
             </div>
@@ -185,6 +185,7 @@ export default {
           top: 'center',
           width: '100%',
           height: '100%',
+          gridSize: 30,
           textStyle: {
             fontFamily: 'sans-serif',
             fontWeight: 'bold',

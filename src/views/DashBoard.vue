@@ -187,7 +187,11 @@ export default {
             type: 'wordCloud',
             sizeRange: [20, 500],
             rotationRange: [-90, 90],
+            gridSize: 8,
             shape: 'circle',
+            textStyle: {
+              color: () => `rgb(${Math.random() * 160}, ${Math.random() * 160}, ${Math.random() * 160})`,
+            },
             data: this.wordCloudData
           }
         ]

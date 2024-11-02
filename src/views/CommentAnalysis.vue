@@ -108,7 +108,7 @@ export default {
       const myChart = echarts.init(this.$refs.genderPieChart);
       const option = {
         title: {
-          text: 'Gender Distribution',
+          text: '评论区性别比例',
           left: 'center'
         },
         tooltip: {
@@ -138,7 +138,7 @@ export default {
       const myChart = echarts.init(this.$refs.wordCloudChart);
       const option = {
         title: {
-          text: 'Word Cloud',
+          text: '评论内容词云图',
           left: 'center'
         },
         tooltip: {
@@ -146,7 +146,7 @@ export default {
         },
         series: [{
           type: 'wordCloud',
-          gridSize: 20,
+          gridSize: 30,
           sizeRange: [12, 60],
           rotationRange: [-90, 90],
           shape: 'circle',
@@ -154,15 +154,7 @@ export default {
           height: 400,
           drawOutOfBound: true,
           textStyle: {
-            normal: {
-              color: function () {
-                return 'rgb(' + [
-                  Math.round(Math.random() * 160),
-                  Math.round(Math.random() * 160),
-                  Math.round(Math.random() * 160)
-                ].join(',') + ')';
-              }
-            },
+            color: () => `rgb(${Math.random() * 160}, ${Math.random() * 160}, ${Math.random() * 160})`,
             emphasis: {
               shadowBlur: 10,
               shadowColor: '#333'

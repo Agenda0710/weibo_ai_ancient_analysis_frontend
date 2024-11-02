@@ -43,20 +43,12 @@ export default {
       const option = {
         series: [{
           type: 'wordCloud',
-          gridSize: 2,
+          gridSize: 30,
           sizeRange: [12, 50],
           rotationRange: [-90, 90],
           shape: 'circle',
           textStyle: {
-            normal: {
-              color: function () {
-                return 'rgb(' + [
-                  Math.round(Math.random() * 160),
-                  Math.round(Math.random() * 160),
-                  Math.round(Math.random() * 160)
-                ].join(',') + ')';
-              }
-            },
+            color: () => `rgb(${Math.random() * 160}, ${Math.random() * 160}, ${Math.random() * 160})`,
             emphasis: {
               shadowBlur: 10,
               shadowColor: '#333'
@@ -65,7 +57,6 @@ export default {
           data: formattedData  // 词云数据
         }]
       };
-
       myChart.setOption(option);
     }
   }
