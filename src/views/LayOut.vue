@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-aside width="200px" style="background-color: rgb(238, 241, 246); position: fixed; height: 100vh;">
-        <el-menu :default-openeds="['1', '2', '3','4','5']">
+        <el-menu :default-openeds="['1', '2', '3','4','5','6']">
           <el-submenu index="1">
             <template slot="title"><i class="el-icon-message"></i>首页</template>
             <el-menu-item-group v-show='true'>
@@ -36,9 +36,15 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
+            <template slot="title"><i class="el-icon-edit"></i>内容检测</template>
+            <el-menu-item-group v-show='true'>
+              <el-menu-item index="5-1" @click="$router.push('/weiboContentFakeOrTruePredictor')">虚假信息检测</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-submenu index="6">
             <template slot="title"><i class="el-icon-s-grid"></i>数据大屏</template>
             <el-menu-item-group v-show='true'>
-              <el-menu-item index="5-1" @click="$router.push('/dataViews')">大屏展示</el-menu-item>
+              <el-menu-item index="6-1" @click="$router.push('/dataViews')">大屏展示</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
         </el-menu>
