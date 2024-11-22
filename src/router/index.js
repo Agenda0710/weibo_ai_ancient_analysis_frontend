@@ -13,6 +13,7 @@ import HotSearchAnalysis from "@/views/HotSearchAnalysis.vue";
 import CurrentNewsAnalysis from "@/views/currentNewsAnalysis.vue";
 import DataViews from "@/views/DataViews.vue";
 import WeiboContentFakeOrTruePredictor from "@/views/WeiboContentFakeOrTruePredictor.vue";
+import autoCollectData from "@/views/AutoCollectData.vue";
 
 Vue.use(VueRouter)
 
@@ -43,18 +44,21 @@ const routes = [
         }, {
             path: 'sentimentAnalysis',
             component: SentimentAnalysis
-        },{
+        }, {
             path: 'articleContentWordCloud',
             component: ArticleContentWordCloud,
-        },{
+        }, {
             path: 'hotSearchAnalysis',
             component: HotSearchAnalysis
-        },{
+        }, {
             path: 'currentNewsAnalysis',
             component: CurrentNewsAnalysis
-        },{
+        }, {
             path: 'weiboContentFakeOrTruePredictor',
             component: WeiboContentFakeOrTruePredictor
+        }, {
+            path: 'collectData',
+            component: autoCollectData
         }
         ],
     },

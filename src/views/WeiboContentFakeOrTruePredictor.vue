@@ -41,6 +41,7 @@ export default {
   },
   methods: {
     async predictContent() {
+      this.predictionResult = ''
       if (!this.newsContent.trim()) {
         this.$message.error("新闻内容不能为空！");
         return;
@@ -58,7 +59,7 @@ export default {
         }
       }).catch((error) => {
         console.error(error);
-        this.$message.error("请求失败，请检查网络或联系管理员！");
+        this.$message.error("请求失败！");
       });
     },
   },
