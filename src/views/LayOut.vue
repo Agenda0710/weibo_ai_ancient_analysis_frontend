@@ -38,7 +38,11 @@
           <el-submenu index="5">
             <template slot="title"><i class="el-icon-edit"></i>内容检测</template>
             <el-menu-item-group v-show='true'>
-              <el-menu-item index="5-1" @click="$router.push('/weiboContentFakeOrTruePredictor')">虚假信息检测</el-menu-item>
+              <el-menu-item index="5-1" @click="$router.push('/weiboContentFakeOrTruePredictor')">谣言检测
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group v-show='true'>
+              <el-menu-item index="5-2" @click="$router.push('/predictJunkInformation')">欺诈信息检测</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index=6>

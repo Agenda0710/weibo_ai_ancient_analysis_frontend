@@ -14,6 +14,7 @@ import CurrentNewsAnalysis from "@/views/currentNewsAnalysis.vue";
 import DataViews from "@/views/DataViews.vue";
 import WeiboContentFakeOrTruePredictor from "@/views/WeiboContentFakeOrTruePredictor.vue";
 import autoCollectData from "@/views/AutoCollectData.vue";
+import predictJunkInformation from "@/views/PredictJunkInformation.vue";
 
 Vue.use(VueRouter)
 
@@ -59,6 +60,9 @@ const routes = [
         }, {
             path: 'collectData',
             component: autoCollectData
+        },{
+            path: 'predictJunkInformation',
+            component: predictJunkInformation
         }
         ],
     },

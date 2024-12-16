@@ -27,7 +27,9 @@
 
     <!-- 结果提示 -->
     <el-row v-if="responseMessage" style="margin-top: 20px;">
-      <el-alert :title="responseMessage" type="info" show-icon></el-alert>
+      <el-card  v-loading="loading">
+        <el-alert :title="responseMessage" type="info" show-icon ></el-alert>
+      </el-card>
     </el-row>
   </div>
 </template>
@@ -44,6 +46,7 @@ export default {
       responseMessage: "", // 后端返回的消息
       typeOptions: [1, 2, 3, 4, 5], // 类型数量选项
       pageOptions: [1, 2, 3, 4, 5], // 页面数量选项
+      loading: true,
     };
   },
   methods: {
@@ -56,14 +59,17 @@ export default {
 
       // 调用后端接口
       try {
+        this.loading = true
         const response = await axios.post("/api/autoCollectData/", {
           type_num: this.typeNum,
           page_num: this.pageNum,
         });
         if (response.data.success) {
+          this.loading = false
           this.responseMessage = "数据采集和词频分析成功！";
         }
       } catch (error) {
+        this.loading = false
         this.responseMessage = "请求失败，请检查后端服务！";
         console.error(error);
       }
