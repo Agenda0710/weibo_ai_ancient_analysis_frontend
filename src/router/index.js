@@ -10,11 +10,12 @@ import CommentAnalysis from "@/views/CommentAnalysis.vue";
 import SentimentAnalysis from "@/views/SentimentAnalysis.vue";
 import ArticleContentWordCloud from "@/views/ArticleContentWordCloud.vue";
 import HotSearchAnalysis from "@/views/HotSearchAnalysis.vue";
-import CurrentNewsAnalysis from "@/views/currentNewsAnalysis.vue";
+import CurrentNewsAnalysis from "@/views/CurrentNewsAnalysis.vue";
 import DataViews from "@/views/DataViews.vue";
 import WeiboContentFakeOrTruePredictor from "@/views/WeiboContentFakeOrTruePredictor.vue";
 import autoCollectData from "@/views/AutoCollectData.vue";
 import predictJunkInformation from "@/views/PredictJunkInformation.vue";
+import GetWeiboSearch from "@/views/GetWeiboSearch.vue";
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,9 @@ const routes = [
         },{
             path: 'predictJunkInformation',
             component: predictJunkInformation
+        },{
+            path: 'getWeiboSearch',
+            component: GetWeiboSearch
         }
         ],
     },

@@ -48,7 +48,7 @@ import axios from "axios";
 import * as echarts from 'echarts';
 
 export default {
-  name: "currentNewsAnalysis",
+  name: "CurrentNewsAnalysis",
   data() {
     return {
       newsDataList: [],

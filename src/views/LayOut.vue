@@ -9,6 +9,7 @@
               <el-menu-item index="1-1" @click="$router.push('/dashBoard')">首页</el-menu-item>
               <el-menu-item index="1-2" @click="$router.push('/hotWords')">热词统计</el-menu-item>
               <el-menu-item index="1-3" @click="$router.push('/publicSentimentStatics')">微博舆情统计</el-menu-item>
+              <el-menu-item index="1-4" @click="$router.push('/getWeiboSearch')">特定词分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
