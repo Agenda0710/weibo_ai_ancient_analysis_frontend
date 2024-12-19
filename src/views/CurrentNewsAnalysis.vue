@@ -9,13 +9,21 @@
               style="width: 100%"
               v-loading="loading"
           >
-            <el-table-column label="序号" width="100">
+
+            <el-table-column prop="time" label="时间" width="150">
               <template slot-scope="scope">
-                {{ scope.$index + 1 }}
+                <el-button type="text" @click="viewArticle(scope.row.detailUrl)">
+                  {{ scope.row.time }}
+                </el-button>
               </template>
             </el-table-column>
 
-            <el-table-column prop="content" label="新闻内容" width="920"></el-table-column>
+            <!-- 修改新闻内容列 -->
+            <el-table-column label="新闻内容" width="820">
+              <template slot-scope="scope">
+                <span v-html="highlightKeywords(scope.row.content)"></span>
+              </template>
+            </el-table-column>
 
             <el-table-column
                 prop="category"
@@ -43,6 +51,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from "axios";
 import * as echarts from 'echarts';
@@ -51,23 +60,27 @@ export default {
   name: "CurrentNewsAnalysis",
   data() {
     return {
-      newsDataList: [],
-      categoryFilters: [],
-      categoryCounts: {},
-      loading: true
+      newsDataList: [], // 新闻数据列表
+      categoryFilters: [], // 分类筛选项
+      categoryCounts: {}, // 分类统计
+      loading: true, // 加载状态
+      keywords: ["智能", "大模型", "AI"] // 需要高亮的关键词
     };
   },
   created() {
-    this.fetchCurrentNews();
+    this.fetchCurrentNews(); // 组件创建时获取数据
   },
   methods: {
+    // 获取当前新闻数据
     fetchCurrentNews() {
       axios.get('/api/getCurrentNews/').then((response) => {
-        this.loading = false
+        this.loading = false;
         this.newsDataList = response.data.news_data_analysis.map(item => {
           return {
-            content: Object.keys(item)[0],
-            category: item[Object.keys(item)[0]],
+            content: item.news_data,          // 新闻内容
+            time: item.news_create_time,     // 新闻时间
+            detailUrl: item.news_detail_url,      // 新闻链接
+            category: item.label             // 新闻分类
           };
         });
 
@@ -80,6 +93,17 @@ export default {
             .map(category => ({text: category, value: category}));
       });
     },
+    // 看新闻详情
+    viewArticle(url) {
+      window.open(url, "_blank"); // 跳转到文章详情页
+    },
+    // 高亮关键词
+    highlightKeywords(content) {
+      if (!content) return "";
+      const regex = new RegExp(`(${this.keywords.join("|")})`, "gi");
+      return content.replace(regex, '<span style="color: red; font-weight: bold;">$1</span>');
+    },
+    // 渲染饼状图
     renderPieChart() {
       const chartDom = this.$refs.pieChart;
       const myChart = echarts.init(chartDom);
@@ -112,9 +136,11 @@ export default {
       };
       myChart.setOption(option);
     },
+    // 分类筛选方法
     filterCategory(value, row) {
       return row.category === value;
     },
+    // 获取分类标签颜色
     getTagType(category) {
       const categoryColors = {
         '民生': 'success',
@@ -138,6 +164,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .el-col {
