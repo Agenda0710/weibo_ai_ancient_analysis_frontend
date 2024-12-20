@@ -86,6 +86,7 @@ export default {
       totalArticles: 0,
       topLikedAuthor: '',
       topCity: '',
+      aiArticleWordLengthList: [],
       topCommentsList: [],
       data: [],
       articleCountOfDate: [],
@@ -105,7 +106,7 @@ export default {
             this.dates = response.data.dates;
             this.counts = response.data.counts;
             this.renderLineChart();
-            this.articleTypeData = response.data.article_type_data;
+            this.aiArticleWordLengthList = response.data.ai_article_word_length_list;
             this.renderPieChart();
             this.wordCloudData = response.data.wordcloud_data;
             this.renderWordCloud();
@@ -147,7 +148,7 @@ export default {
       var myChart = echarts.init(chartDom);
       var option = {
         title: {
-          text: '微博文章分类图',
+          text: '人工智能文章篇幅图',
           left: 'center'
         },
         tooltip: {
@@ -159,10 +160,10 @@ export default {
         },
         series: [
           {
-            name: '微博文章分类图',
+            name: '人工智能文章篇幅图',
             type: 'pie',
             radius: '50%',
-            data: this.articleTypeData,
+            data: this.aiArticleWordLengthList,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -182,12 +183,18 @@ export default {
         title: {
           text: '评论区用户名词云图'
         },
+        tooltip: {
+          // 设置tooltip显示内容，展示词语名称和对应的词频（value值）
+          formatter: function (params) {
+            return `${params.name} : ${params.value}`;
+          }
+        },
         series: [
           {
             type: 'wordCloud',
             sizeRange: [20, 500],
             rotationRange: [-90, 90],
-            gridSize: 8,
+            gridSize: 16, // 调大gridSize值来增大词与词之间的间隔
             shape: 'circle',
             textStyle: {
               color: () => `rgb(${Math.random() * 160}, ${Math.random() * 160}, ${Math.random() * 160})`,

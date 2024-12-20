@@ -44,9 +44,9 @@
             >
             </el-table-column>
             <el-table-column
-                prop="type"
+                prop="content_length"
                 sortable
-                label="文章类型"
+                label="文章长度"
             >
             </el-table-column>
             <el-table-column
