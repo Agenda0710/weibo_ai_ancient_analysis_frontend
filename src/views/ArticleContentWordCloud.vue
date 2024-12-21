@@ -41,6 +41,12 @@ export default {
       }));
 
       const option = {
+        tooltip: {
+          // 设置tooltip显示内容，展示词语名称和对应的词频（value值）
+          formatter: function (params) {
+            return `${params.name} : ${params.value}`;
+          }
+        },
         series: [{
           type: 'wordCloud',
           gridSize: 30,

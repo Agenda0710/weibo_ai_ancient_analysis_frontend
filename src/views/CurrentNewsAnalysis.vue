@@ -64,7 +64,7 @@ export default {
       categoryFilters: [], // 分类筛选项
       categoryCounts: {}, // 分类统计
       loading: true, // 加载状态
-      keywords: ["智能", "大模型", "AI"] // 需要高亮的关键词
+      keywords: ["智能", "模型", "AI", "机器", "接口"] // 需要高亮的关键词
     };
   },
   created() {

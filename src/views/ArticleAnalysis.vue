@@ -1,25 +1,6 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="24">
-        <el-card>
-          <el-form :model="form">
-            <el-form-item label="文章类型选择">
-              <el-select v-model="selectedWord" placeholder="文章选择" @change="fetchArticleTypeData">
-                <el-option
-                    v-for="type in articleTypeList"
-                    :key="type"
-                    :label="type"
-                    :value="type"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </el-card>
-      </el-col>
-    </el-row>
-
-    <el-row v-if="selectedWord">
       <el-col :span="12">
         <el-card>
           <div ref="likeChart" style="width: 100%; height: 400px;"></div> <!-- 点赞量区间柱状图 -->
@@ -51,7 +32,6 @@ export default {
     return {
       form: {},
       selectedWord: '',
-      articleTypeList: [], // 文章类型列表
       likeChartData: {},   // 点赞量数据
       commentChartData: {},// 评论量数据
       repostChartData: {}  // 转发量数据
@@ -64,7 +44,6 @@ export default {
           'type': this.selectedWord
         }
       }).then((response) => {
-        this.articleTypeList = response.data.types;
         const {like_counts} = response.data;
         const {comment_counts} = response.data;
         const {repost_counts} = response.data;
