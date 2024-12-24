@@ -8,7 +8,7 @@
             <el-menu-item-group v-show='true'>
               <el-menu-item index="1-1" @click="$router.push('/dashBoard')">首页</el-menu-item>
               <el-menu-item index="1-2" @click="$router.push('/hotWords')">热词统计</el-menu-item>
-              <el-menu-item index="1-3" @click="$router.push('/publicSentimentStatics')">微博舆情统计</el-menu-item>
+              <el-menu-item index="1-3" @click="$router.push('/publicSentimentStatics')">微博文章数据统计</el-menu-item>
               <el-menu-item index="1-4" @click="$router.push('/getWeiboSearch')">特定词分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -28,12 +28,15 @@
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="4">
-            <template slot="title"><i class="el-icon-collection"></i>实时热搜</template>
+            <template slot="title"><i class="el-icon-collection"></i>实时资讯</template>
             <el-menu-item-group v-show='true'>
               <el-menu-item index="4-1" @click="$router.push('/hotSearchAnalysis')">热搜分析</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group v-show='true'>
               <el-menu-item index="4-2" @click="$router.push('/currentNewsAnalysis')">新闻分析</el-menu-item>
+            </el-menu-item-group>
+            <el-menu-item-group v-show='true'>
+              <el-menu-item index="4-2" @click="$router.push('/currentPoliciesAnalysis')">政策分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">
@@ -63,7 +66,7 @@
 
       <el-container style="margin-left: 200px;">
         <el-header>
-          微博舆情分析
+          面向人工智能行业的数据洞察与可视化分析平台
         </el-header>
 
         <el-main>

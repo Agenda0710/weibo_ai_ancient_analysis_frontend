@@ -16,6 +16,7 @@ import WeiboContentFakeOrTruePredictor from "@/views/WeiboContentFakeOrTruePredi
 import autoCollectData from "@/views/AutoCollectData.vue";
 import predictJunkInformation from "@/views/PredictJunkInformation.vue";
 import GetWeiboSearch from "@/views/GetWeiboSearch.vue";
+import CurrentPoliciesAnalysis from "@/views/CurrentPoliciesAnalysis.vue";
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,9 @@ const routes = [
         },{
             path: 'getWeiboSearch',
             component: GetWeiboSearch
+        },{
+            path: 'currentPoliciesAnalysis',
+            component: CurrentPoliciesAnalysis
         }
         ],
     },

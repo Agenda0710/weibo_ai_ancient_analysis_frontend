@@ -181,7 +181,7 @@ export default {
       var myChart = echarts.init(chartDom);
       var option = {
         title: {
-          text: '评论区用户名词云图'
+          text: '微博文章用户名词云图'
         },
         tooltip: {
           // 设置tooltip显示内容，展示词语名称和对应的词频（value值）
