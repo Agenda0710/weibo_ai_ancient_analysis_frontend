@@ -36,7 +36,7 @@
               <el-menu-item index="4-2" @click="$router.push('/currentNewsAnalysis')">新闻分析</el-menu-item>
             </el-menu-item-group>
             <el-menu-item-group v-show='true'>
-              <el-menu-item index="4-2" @click="$router.push('/currentPoliciesAnalysis')">政策分析</el-menu-item>
+              <el-menu-item index="4-3" @click="$router.push('/currentPoliciesAnalysis')">政策分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="5">

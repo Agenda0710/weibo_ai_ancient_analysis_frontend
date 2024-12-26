@@ -23,11 +23,23 @@
             <div v-if="aiAnalysis">
               <h3>AI 解读结果：</h3>
               <p>{{ aiAnalysis }}</p>
+              <el-button type="primary" @click="showTreeChart">展示树形图</el-button>
+              <br>
             </div>
           </el-skeleton>
         </el-col>
       </el-card>
     </el-row>
+
+    <!-- 树形图弹出框 -->
+    <el-dialog
+        title="树形图展示"
+        :visible.sync="showDialog"
+        width="80%"
+        @close="resetDialog"
+    >
+      <TreeChart/>
+    </el-dialog>
 
     <el-row>
       <el-col :span="12">
@@ -50,19 +62,30 @@
 <script>
 import axios from "axios";
 import * as echarts from "echarts";
+import TreeChart from "@/components/TreeChart.vue";
 
 export default {
+  components: {TreeChart},
   data() {
     return {
       policies: [],
       aiAnalysis: null,
       categoryChart: null,
+      showDialog: false, // 控制弹出框显示
       wordCloudData: [], // 存储词云数据
       wordCloudInstance: null, // 存储 ECharts 实例
       loading: true, // 加载状态
     };
   },
   methods: {
+    // 展示树形图弹出框
+    showTreeChart() {
+      this.showDialog = true;
+    },
+    // 关闭对话框时重置
+    resetDialog() {
+      this.showDialog = false;
+    },
     fetchPolicies() {
       this.loading = true; // 开启加载动画
       axios.get("/api/analyze_ai_policies/").then((response) => {
