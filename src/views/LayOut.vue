@@ -9,7 +9,7 @@
               <el-menu-item index="1-1" @click="$router.push('/dashBoard')">首页</el-menu-item>
               <el-menu-item index="1-2" @click="$router.push('/hotWords')">热词统计</el-menu-item>
               <el-menu-item index="1-3" @click="$router.push('/publicSentimentStatics')">微博文章数据统计</el-menu-item>
-              <el-menu-item index="1-4" @click="$router.push('/getWeiboSearch')">特定词分析</el-menu-item>
+              <el-menu-item index="1-4" @click="$router.push('/knowledgePage')">知识科普</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="2">
@@ -19,6 +19,8 @@
               <el-menu-item index="2-2" @click="$router.push('/regionAnalysis')">IP分析</el-menu-item>
               <el-menu-item index="2-3" @click="$router.push('/commentAnalysis')">评论分析</el-menu-item>
               <el-menu-item index="2-4" @click="$router.push('/sentimentAnalysis')">舆情分析</el-menu-item>
+              <el-menu-item index="2-5" @click="$router.push('/getWeiboSearch')">特定词分析</el-menu-item>
+              <el-menu-item index="2-6" @click="$router.push('/tech-hotspot-graph')">技术热点图谱分析</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
           <el-submenu index="3">

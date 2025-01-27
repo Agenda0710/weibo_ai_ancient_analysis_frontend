@@ -17,6 +17,8 @@ import autoCollectData from "@/views/AutoCollectData.vue";
 import predictJunkInformation from "@/views/PredictJunkInformation.vue";
 import GetWeiboSearch from "@/views/GetWeiboSearch.vue";
 import CurrentPoliciesAnalysis from "@/views/CurrentPoliciesAnalysis.vue";
+import KnowledgePage from "@/views/KnowledgePage.vue";
+import TechHotspotGraph from "@/views/TechHotspotGraph.vue";
 
 Vue.use(VueRouter)
 
@@ -36,42 +38,50 @@ const routes = [
             path: 'publicSentimentStatics',
             component: PublicSentimentStatics
         }, {
-            path: 'articleAnalysis',
-            component: ArticleAnalysis
-        }, {
-            path: 'regionAnalysis',
-            component: RegionAnalysis
-        }, {
-            path: 'commentAnalysis',
-            component: CommentAnalysis
-        }, {
-            path: 'sentimentAnalysis',
-            component: SentimentAnalysis
-        }, {
-            path: 'articleContentWordCloud',
-            component: ArticleContentWordCloud,
-        }, {
-            path: 'hotSearchAnalysis',
-            component: HotSearchAnalysis
-        }, {
-            path: 'currentNewsAnalysis',
-            component: CurrentNewsAnalysis
-        }, {
-            path: 'weiboContentFakeOrTruePredictor',
-            component: WeiboContentFakeOrTruePredictor
-        }, {
-            path: 'collectData',
-            component: autoCollectData
-        },{
-            path: 'predictJunkInformation',
-            component: predictJunkInformation
-        },{
-            path: 'getWeiboSearch',
-            component: GetWeiboSearch
-        },{
-            path: 'currentPoliciesAnalysis',
-            component: CurrentPoliciesAnalysis
-        }
+            path: 'knowledgePage',
+            component: KnowledgePage
+        },
+            {
+                path: 'articleAnalysis',
+                component: ArticleAnalysis
+            }, {
+                path: 'regionAnalysis',
+                component: RegionAnalysis
+            }, {
+                path: 'commentAnalysis',
+                component: CommentAnalysis
+            }, {
+                path: 'sentimentAnalysis',
+                component: SentimentAnalysis
+            }, {
+                path: 'articleContentWordCloud',
+                component: ArticleContentWordCloud,
+            }, {
+                path: 'hotSearchAnalysis',
+                component: HotSearchAnalysis
+            }, {
+                path: 'currentNewsAnalysis',
+                component: CurrentNewsAnalysis
+            }, {
+                path: 'weiboContentFakeOrTruePredictor',
+                component: WeiboContentFakeOrTruePredictor
+            }, {
+                path: 'collectData',
+                component: autoCollectData
+            }, {
+                path: 'predictJunkInformation',
+                component: predictJunkInformation
+            }, {
+                path: 'getWeiboSearch',
+                component: GetWeiboSearch
+            }, {
+                path: 'currentPoliciesAnalysis',
+                component: CurrentPoliciesAnalysis
+            },{
+                path: "tech-hotspot-graph",
+                name: "TechHotspotGraph",
+                component: TechHotspotGraph
+            }
         ],
     },
     {
