@@ -26,7 +26,7 @@ export default {
   methods: {
     async fetchGraphData() {
       try {
-        const response = await axios.get("/api/tech-hotspot-graph/");
+        const response = await axios.get("/api/techHotspotGraph/");
         const data = response.data;
 
         // 检查数据是否存在

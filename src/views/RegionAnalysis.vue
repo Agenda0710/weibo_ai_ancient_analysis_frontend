@@ -5,6 +5,9 @@
       <el-card>
         <el-col :span="24">
           <div style="width:800px;height:600px;margin: 0 auto" ref="articleChart"></div>
+          <div style="text-align:center; margin-top:10px; font-size:14px; color:#666;">
+            地图来源：阿里云DataV高德地图&nbsp;&nbsp;&nbsp;审图号：2022 高德软件 GS京(2022)1061号
+          </div>
         </el-col>
       </el-card>
     </el-row>
@@ -14,6 +17,9 @@
       <el-card>
         <el-col :span="24">
           <div style="width:800px;height:600px;margin: 0 auto" ref="commentChart"></div>
+          <div style="text-align:center; margin-top:10px; font-size:14px; color:#666;">
+            地图来源：阿里云DataV高德地图 &nbsp;&nbsp;&nbsp;审图号：2022 高德软件 GS京(2022)1061号
+          </div>
         </el-col>
       </el-card>
     </el-row>

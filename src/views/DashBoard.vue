@@ -97,7 +97,7 @@ export default {
   methods: {
     fetchArticleStatistics() {
       let loadingInstance = Loading.service({fullscreen: true});
-      axios.get('/api/article_statistics/')
+      axios.get('/api/articleStatistics/')
           .then(response => {
             this.totalArticles = response.data.total_articles;
             this.topLikedAuthor = response.data.top_liked_author;

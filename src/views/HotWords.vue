@@ -63,12 +63,6 @@
             >
             </el-table-column>
             <el-table-column
-                prop="authorAddress"
-                sortable
-                label="评论地址"
-            >
-            </el-table-column>
-            <el-table-column
                 prop="content"
                 sortable
                 label="评论内容"

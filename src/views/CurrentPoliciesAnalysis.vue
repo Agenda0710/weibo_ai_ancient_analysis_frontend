@@ -88,7 +88,7 @@ export default {
     },
     fetchPolicies() {
       this.loading = true; // 开启加载动画
-      axios.get("/api/analyze_ai_policies/").then((response) => {
+      axios.get("/api/analyzeAiPolicies/").then((response) => {
         this.loading = true;
         const data = response.data;
         this.policies = data.policies;

@@ -34,7 +34,7 @@ export default {
   name: "WeiboContentFakeOrTruePredictor",
   data() {
     return {
-      newsContent: "", // 用户输入的新闻内容
+      newsContent: "震惊！人工智能有了自主意识，在大街上狂砍数十人，令人恐慌", // 用户输入的新闻内容
       predictionResult: "", // 预测结果
       loading: true,
     };
