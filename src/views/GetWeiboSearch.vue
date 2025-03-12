@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       form: {},
-      articleTypeList: ['大模型', '人工智能', '元宇宙'],
+      articleTypeList: ['非遗', '中华传统', '古代发明'],
       selectedWord: '',
       hotQueries: [],
       weiboArticles: [], // 包含 content 和 sentiment 的文章数据
