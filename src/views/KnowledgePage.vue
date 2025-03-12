@@ -1,83 +1,79 @@
 <template>
   <div class="knowledge-page">
+    <!-- 标题部分 -->
+    <div class="title-section">
+      <h1>中华自然科学及优秀文化瑰宝</h1>
+      <p>弘扬中华优秀自然科学成就与文化传承</p>
+    </div>
 
-
+    <!-- 第一排内容：中国古代自然科学成就 -->
     <el-row :gutter="20" class="content-section equal-height">
-      <!-- 什么是人工智能 -->
+      <!-- 中国古代自然科学成就 -->
       <el-col :span="12" class="flex-column">
         <div class="content-block">
-          <h2>什么是人工智能？</h2>
+          <h2>中国古代自然科学成就</h2>
           <p>
-            人工智能（Artificial Intelligence, AI）是一门研究如何让计算机模拟人类智能的学科。
-            它包括自然语言处理、计算机视觉、机器学习等领域，旨在实现机器的自主学习和推理能力。
+            中国古代在天文学、数学、医学、农学等领域取得了辉煌成就：
           </p>
-          <img src="@/assets/ai.png" alt="人工智能简介" class="content-image"/>
+          <ul>
+            <li><strong>天文学：</strong>发明了浑天仪、地动仪等天文仪器。</li>
+            <li><strong>数学：</strong>《九章算术》奠定了古代数学的基础。</li>
+            <li><strong>医学：</strong>《黄帝内经》奠定了中医理论体系。</li>
+            <li><strong>农学：</strong>《齐民要术》总结了古代农业技术。</li>
+          </ul>
+          <img src="@/assets/science_achievements.png" alt="中国古代自然科学成就" class="content-image"/>
         </div>
       </el-col>
-      <!-- 什么是大模型 -->
+      <!-- 中国古代杰出科学家 -->
       <el-col :span="12" class="flex-column">
         <div class="content-block">
-          <h2>什么是大模型？</h2>
+          <h2>中国古代杰出科学家</h2>
           <p>
-            大模型（Large Language Model, LLM）是基于深度学习技术训练的大规模语言模型，
-            它拥有庞大的参数量和丰富的知识，可以用于自然语言生成、对话、翻译等任务。
+            中国古代涌现了许多伟大的科学家，他们的贡献影响深远：
           </p>
-          <img src="@/assets/llm.png" alt="大模型简介" class="content-image"/>
+          <ul>
+            <li><strong>张衡：</strong>发明地动仪，研究天文历法。</li>
+            <li><strong>祖冲之：</strong>精确计算圆周率，推动数学发展。</li>
+            <li><strong>李时珍：</strong>编撰《本草纲目》，奠定中医药学基础。</li>
+            <li><strong>沈括：</strong>著有《梦溪笔谈》，涉及多学科领域。</li>
+          </ul>
+          <img src="@/assets/scientists.png" alt="中国古代杰出科学家" class="content-image"/>
         </div>
       </el-col>
     </el-row>
 
+    <!-- 第二排内容：中国古代自然科学著作与优秀文化传承 -->
     <el-row :gutter="20" class="content-section equal-height">
-      <!-- 人工智能的应用 -->
+      <!-- 中国古代自然科学著作 -->
       <el-col :span="12" class="flex-column">
         <div class="content-block">
-          <h2>人工智能的应用场景</h2>
+          <h2>中国古代自然科学著作</h2>
           <p>
-            人工智能技术已经在多个领域展现了巨大的潜力：
+            中国古代留下了许多重要的自然科学专著，记录了丰富的知识：
           </p>
-          <div class="application-item">
-            <el-icon><Medicine /></el-icon>
-            <p>医疗：AI技术在医疗领域的应用包括智能诊断系统和个性化药物开发。</p>
-          </div>
-          <div class="application-item">
-            <el-icon><Van /></el-icon>
-            <p>交通：自动驾驶技术和智能交通管理系统的创新应用。</p>
-          </div>
-          <div class="application-item">
-            <el-icon><Money /></el-icon>
-            <p>金融：AI用于风险管理、智能投资顾问和欺诈检测。</p>
-          </div>
-          <div class="application-item">
-            <el-icon><Reading /></el-icon>
-            <p>教育：个性化学习平台和智能评估系统的开发。</p>
-          </div>
-          <img src="@/assets/ai_application.png" alt="人工智能应用场景" class="content-image"/>
+          <ul>
+            <li><strong>《九章算术》：</strong>古代数学经典，解决实际问题。</li>
+            <li><strong>《黄帝内经》：</strong>中医理论奠基之作。</li>
+            <li><strong>《梦溪笔谈》：</strong>涵盖天文、地理、物理等领域的综合性著作。</li>
+            <li><strong>《天工开物》：</strong>详细记录了古代手工业和农业技术。</li>
+          </ul>
+          <img src="@/assets/science_books.png" alt="中国古代自然科学著作" class="content-image"/>
         </div>
       </el-col>
-      <!-- 大模型的未来 -->
+      <!-- 中国古代优秀文化传承 -->
       <el-col :span="12" class="flex-column">
         <div class="content-block">
-          <h2>大模型的未来发展</h2>
+          <h2>中国古代优秀文化传承</h2>
           <p>
-            随着计算能力的提升和数据的积累，大模型正逐步改变我们的生活。未来，大模型可能在以下领域取得重要突破：
+            中华优秀文化不仅体现在自然科学成就上，还涵盖了哲学、艺术、教育等领域：
           </p>
-          <div class="application-item">
-            <el-icon><FirstAidKit /></el-icon>
-            <p>精准医疗：大模型辅助医生进行精准诊断和个性化治疗方案设计。</p>
-          </div>
-          <div class="application-item">
-            <el-icon><Search /></el-icon>
-            <p>学术研究：通过快速分析海量数据，加速科学发现的进程。</p>
-          </div>
-          <div class="application-item">
-            <el-icon><ChatDotRound /></el-icon>
-            <p>人机交互：打造更自然、更智能的对话助手。</p>
-          </div>
-          <div class="application-item">
-            <el-icon><School /></el-icon>
-            <p>教育支持：为学生提供全方位的学习辅助和实时反馈。</p>
-          </div>
-          <img src="@/assets/llm_future.png" alt="大模型的未来" class="content-image"/>
+          <ul>
+            <li><strong>哲学：</strong>儒家、道家思想对后世影响深远。</li>
+            <li><strong>艺术：</strong>书法、绘画、陶瓷等艺术形式独具特色。</li>
+            <li><strong>教育：</strong>科举制度推动了古代学术发展。</li>
+            <li><strong>科技：</strong>四大发明（造纸术、印刷术、火药、指南针）改变世界。</li>
+          </ul>
+          <img src="@/assets/culture_heritage.png" alt="中国古代优秀文化传承" class="content-image"/>
         </div>
       </el-col>
     </el-row>
@@ -161,21 +157,19 @@ export default {
   color: #666;
 }
 
+/* 图片样式优化 */
 .content-image {
   width: 100%;
-  height: auto;
+  height: 300px; /* 增加图片高度 */
+  object-fit: contain; /* 确保图片完整显示 */
   margin-top: 15px;
   border-radius: 5px;
 }
 
-.application-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .content-image {
+    height: 200px; /* 在小屏幕下缩小图片高度 */
+  }
 }
-
-.application-item p {
-  margin: 0 0 0 8px;
-}
-
 </style>
