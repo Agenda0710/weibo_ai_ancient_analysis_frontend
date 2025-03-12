@@ -148,7 +148,7 @@ export default {
       var myChart = echarts.init(chartDom);
       var option = {
         title: {
-          text: '人工智能文章篇幅图',
+          text: '文章篇幅图',
           left: 'center'
         },
         tooltip: {
