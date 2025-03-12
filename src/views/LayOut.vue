@@ -68,7 +68,7 @@
 
       <el-container style="margin-left: 200px;">
         <el-header>
-          面向人工智能行业的数据洞察与可视化分析平台
+          智汇古今——面向中华自然科学与优秀文化可视化分析平台
         </el-header>
 
         <el-main>
