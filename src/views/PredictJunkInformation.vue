@@ -30,7 +30,7 @@ export default {
   name: "PredictJunkInformation",
   data() {
     return {
-      text: "我是你们的好朋友雷军！我现在邀请你参加小米的人工智能研发，带你月入过万不是梦", // 用户输入的文本
+      text: "我是国家级非遗针灸第18代传人！加我微信教你量子针灸，隔空治疗癌症不是梦", // 用户输入的文本
       result: "", // 检测结果
       category: "", // 欺诈类别
       reason: "", // 判定理由

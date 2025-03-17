@@ -23,7 +23,7 @@
             <div v-if="aiAnalysis">
               <h3>AI 解读结果：</h3>
               <p>{{ aiAnalysis }}</p>
-              <el-button type="primary" @click="showTreeChart">展示树形图</el-button>
+              <el-button type="primary" @click="showTreeChart">国务院文件展示</el-button>
               <br>
             </div>
           </el-skeleton>
@@ -33,7 +33,7 @@
 
     <!-- 树形图弹出框 -->
     <el-dialog
-        title="树形图展示"
+        title="国务院文件展示"
         :visible.sync="showDialog"
         width="80%"
         @close="resetDialog"

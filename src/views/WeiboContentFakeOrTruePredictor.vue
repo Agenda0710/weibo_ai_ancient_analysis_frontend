@@ -34,7 +34,7 @@ export default {
   name: "WeiboContentFakeOrTruePredictor",
   data() {
     return {
-      newsContent: "震惊！人工智能有了自主意识，在大街上狂砍数十人，令人恐慌", // 用户输入的新闻内容
+      newsContent: "故宫专家冒死公开慈禧御用延寿丹，只需将朱砂、水银、童子尿混合蒸煮，连服7日返老还童！转发到5个群领取电子秘方", // 用户输入的新闻内容
       predictionResult: "", // 预测结果
       loading: true,
     };
