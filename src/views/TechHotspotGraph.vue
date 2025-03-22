@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <h3>技术热点图谱</h3>
+      <h3>文化焦点图谱</h3>
       <div ref="network" style="width: 100%; height: 500px; border: 1px solid #ccc;"></div>
     </el-card>
   </div>
