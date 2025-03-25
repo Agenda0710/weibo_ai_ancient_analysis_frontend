@@ -19,6 +19,7 @@ import GetWeiboSearch from "@/views/GetWeiboSearch.vue";
 import CurrentPoliciesAnalysis from "@/views/CurrentPoliciesAnalysis.vue";
 import KnowledgePage from "@/views/KnowledgePage.vue";
 import TechHotspotGraph from "@/views/TechHotspotGraph.vue";
+import TimeTravel from "@/views/TimeTravel.vue";
 
 Vue.use(VueRouter)
 
@@ -81,6 +82,12 @@ const routes = [
                 path: "tech-hotspot-graph",
                 name: "TechHotspotGraph",
                 component: TechHotspotGraph
+            },
+            {
+                path: '/time-travel',
+                name: 'TimeTravel',
+                component: TimeTravel,
+                meta: { title: '古今科技廊' }
             }
         ],
     },

@@ -32,6 +32,8 @@
               <el-menu-item index="3-2" @click="$router.push('/articleContentWordCloud')">内容词云</el-menu-item>
               <el-menu-item index="3-3" @click="$router.push('/sentimentAnalysis')">舆情研判</el-menu-item>
               <el-menu-item index="3-4" @click="$router.push('/getWeiboSearch')">专题聚焦</el-menu-item>
+              <!-- 新增时空穿越菜单项 -->
+              <el-menu-item index="3-5" @click="$router.push('/time-travel')">时空穿越对比</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
@@ -41,7 +43,7 @@
             <el-menu-item-group>
               <el-menu-item index="4-1" @click="$router.push('/currentNewsAnalysis')">新闻快报</el-menu-item>
               <el-menu-item index="4-2" @click="$router.push('/currentPoliciesAnalysis')">政策要闻</el-menu-item>
-<!--              <el-menu-item index="4-3" @click="$router.push('/hotSearchAnalysis')">热搜追踪</el-menu-item>-->
+              <el-menu-item index="4-3" @click="$router.push('/hotSearchAnalysis')">热搜追踪</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
