@@ -700,6 +700,16 @@ export default {
   min-height: 300px;
 }
 
+/* 新增的间距调整部分 */
+.analysis-row {
+  margin-bottom: 30px; /* 增加AI解读卡片与下方图表卡片的间距 */
+}
+
+.chart-row {
+  margin-top: 10px; /* 确保图表卡片与上方内容有适当间距 */
+}
+
+/* 响应式调整 */
 @media (max-width: 992px) {
   .weibo-analysis-container {
     padding: 15px;
@@ -715,6 +725,10 @@ export default {
 
   .chart-container {
     height: 350px;
+  }
+
+  .analysis-row {
+    margin-bottom: 25px;
   }
 }
 
@@ -734,6 +748,10 @@ export default {
 
   .chart-container {
     height: 300px;
+  }
+
+  .analysis-row {
+    margin-bottom: 20px;
   }
 }
 </style>
