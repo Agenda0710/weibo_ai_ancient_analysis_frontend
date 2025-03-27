@@ -1,26 +1,42 @@
 <template>
-  <div>
-    <el-row>
+  <div class="likes-analysis-container">
+    <!-- 顶部点赞区间折线图 -->
+    <el-row :gutter="20">
       <el-col :span="24">
-        <el-card>
-          <div style="width:100%;height:400px" ref="likesChart"></div>
+        <el-card class="chart-card" shadow="hover">
+          <div slot="header" class="card-header">
+            <i class="el-icon-star-on"></i>
+            <span>点赞区间评论数分布</span>
+            <el-button
+                type="text"
+                icon="el-icon-refresh"
+                @click="fetchLikesData"
+                style="float: right; padding: 3px 0"
+            ></el-button>
+          </div>
+          <div class="chart" ref="likesChart"></div>
         </el-card>
       </el-col>
     </el-row>
 
-    <el-row>
-      <el-col :span="12" style="margin-right: 10px">
-        <el-card>
-          <div>
-            <div style="width:100%; height: 400px;" ref="genderPieChart"></div>
+    <!-- 底部两列图表 -->
+    <el-row :gutter="20" class="chart-row">
+      <el-col :xs="24" :sm="24" :md="12" :lg="12">
+        <el-card class="chart-card" shadow="hover">
+          <div slot="header" class="card-header">
+            <i class="el-icon-user"></i>
+            <span>评论用户性别分布</span>
           </div>
+          <div class="chart" ref="genderPieChart"></div>
         </el-card>
       </el-col>
-      <el-col :span="11">
-        <el-card>
-          <div>
-            <div style="width: 100%; height: 400px;" ref="wordCloudChart"></div>
+      <el-col :xs="24" :sm="24" :md="12" :lg="12">
+        <el-card class="chart-card" shadow="hover">
+          <div slot="header" class="card-header">
+            <i class="el-icon-chat-line-round"></i>
+            <span>评论内容词云</span>
           </div>
+          <div class="chart" ref="wordCloudChart"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -29,133 +45,234 @@
 
 <script>
 import * as echarts from 'echarts';
+import 'echarts-wordcloud';
 import axios from "axios";
 
 export default {
   name: "LikesAnalysis",
   data() {
     return {
-      likeData: [],  // 点赞区间的评论数数据
+      likeData: [],
       genderData: [],
-      wordData: []
+      wordData: [],
+      charts: []
     }
   },
   methods: {
-    // 获取点赞区间数据
     fetchLikesData() {
-      axios.get('/api/commentsAnalysis/').then((response) => {
-        this.likeData = response.data.data;
-        this.genderData = response.data.gender_data;
-        this.wordData = response.data.word_data;
-        this.drawChart();  // 数据加载完成后绘制图表
-        this.renderGenderPieChart();
-        this.renderWordCloudChart();
+      const loading = this.$loading({
+        target: '.likes-analysis-container',
+        text: '数据加载中...'
       });
-    },
-    // 绘制点赞折线图
-    drawChart() {
-      var likesChart = echarts.init(this.$refs["likesChart"]);
 
-      // 提取横轴数据（点赞区间）和纵轴数据（评论数）
+      axios.get('/api/commentsAnalysis/')
+          .then((response) => {
+            this.likeData = response.data.data || [];
+            this.genderData = response.data.gender_data || [];
+            this.wordData = response.data.word_data || [];
+
+            this.$nextTick(() => {
+              this.renderLikesChart();
+              this.renderGenderPieChart();
+              this.renderWordCloudChart();
+            });
+          })
+          .catch(error => {
+            this.$message.error('数据加载失败: ' + error.message);
+          })
+          .finally(() => {
+            loading.close();
+          });
+    },
+
+    initChart(dom) {
+      const chart = echarts.getInstanceByDom(dom) || echarts.init(dom);
+      this.charts.push(chart);
+      return chart;
+    },
+
+    renderLikesChart() {
+      const chart = this.initChart(this.$refs.likesChart);
       const likeRanges = this.likeData.map(item => item.like_range);
       const commentCounts = this.likeData.map(item => item.comment_count);
 
-      var option = {
+      const option = {
         title: {
-          text: '点赞区间的评论数折线图',
-          left: 'center'
+          text: '点赞区间评论数分布',
+          left: 'center',
+          textStyle: {
+            fontSize: 14
+          }
         },
         tooltip: {
           trigger: 'axis',
-          formatter: function (params) {
-            return params[0].axisValue + ': ' + params[0].data + ' 条评论';
-          }
+          formatter: '{b}<br/>评论数: {c} 条'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '10%',
+          containLabel: true
         },
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: likeRanges,  // 横轴为点赞区间
+          data: likeRanges,
           axisLabel: {
-            rotate: 45  // 旋转以适应长标签
+            rotate: 30,
+            interval: 0
           }
         },
         yAxis: {
           type: 'value',
-          minInterval: 1,  // 保证Y轴最小间隔为1
-          name: '评论数'
+          name: '评论数',
+          minInterval: 1
         },
-        dataZoom: [
-          {
-            type: 'slider',  // 使横轴可以拖动
-            xAxisIndex: 0
-          },
-          {
-            type: 'inside',
-            xAxisIndex: 0
-          }
-        ],
+        dataZoom: [{
+          type: 'slider',
+          show: true,
+          xAxisIndex: [0],
+          bottom: '5%'
+        }],
         series: [{
           name: '评论数',
           type: 'line',
           smooth: true,
-          data: commentCounts  // 纵轴为评论数
+          data: commentCounts,
+          symbol: 'circle',
+          symbolSize: 8,
+          itemStyle: {
+            color: '#409EFF'
+          },
+          lineStyle: {
+            color: '#409EFF',
+            width: 3
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              { offset: 0, color: 'rgba(64, 158, 255, 0.3)' },
+              { offset: 1, color: 'rgba(64, 158, 255, 0.1)' }
+            ])
+          }
         }]
       };
-      likesChart.setOption(option);
-    },
-    // 绘制性别分布饼状图
-    renderGenderPieChart() {
-      const myChart = echarts.init(this.$refs.genderPieChart);
-      const option = {
-        title: {
-          text: '评论区性别比例',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        series: [
-          {
-            name: 'Gender',
-            type: 'pie',
-            radius: '50%',
-            data: this.genderData,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-      myChart.setOption(option);
+
+      chart.setOption(option);
     },
 
-    // 绘制词云图
-    renderWordCloudChart() {
-      const myChart = echarts.init(this.$refs.wordCloudChart);
+    renderGenderPieChart() {
+      const chart = this.initChart(this.$refs.genderPieChart);
+
+      // 格式化性别数据，将f/m转换为中文
+      const formattedGenderData = this.genderData.map(item => {
+        let name = '';
+        let color = '';
+
+        if (item.name === 'f') {
+          name = '女';
+          color = '#F56C6C'; // 女性使用红色
+        } else if (item.name === 'm') {
+          name = '男';
+          color = '#409EFF'; // 男性使用蓝色
+        } else {
+          name = item.name;
+          color = '#E6A23C'; // 其他使用黄色
+        }
+
+        return {
+          ...item,
+          name: name,
+          itemStyle: {
+            color: color
+          }
+        };
+      });
+
       const option = {
         title: {
-          text: '评论内容词云图',
-          left: 'center'
+          text: '评论用户性别分布',
+          left: 'center',
+          textStyle: {
+            fontSize: 14
+          }
         },
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+          data: formattedGenderData.map(item => item.name)
+        },
+        series: [{
+          name: '性别分布',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2
+          },
+          label: {
+            show: true,
+            formatter: '{b}: {d}%'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '18',
+              fontWeight: 'bold'
+            }
+          },
+          data: formattedGenderData
+        }]
+      };
+
+      chart.setOption(option);
+    },
+
+    renderWordCloudChart() {
+      const chart = this.initChart(this.$refs.wordCloudChart);
+
+      const option = {
+        title: {
+          text: '评论内容词云',
+          left: 'center',
+          textStyle: {
+            fontSize: 14
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c}'
         },
         series: [{
           type: 'wordCloud',
-          gridSize: 30,
-          sizeRange: [12, 60],
-          rotationRange: [-90, 90],
           shape: 'circle',
-          width: 600,
-          height: 400,
-          drawOutOfBound: true,
+          left: 'center',
+          top: 'center',
+          width: '90%',
+          height: '90%',
+          sizeRange: [20, 80],
+          rotationRange: [-45, 45],
+          rotationStep: 15,
+          gridSize: 12,
+          drawOutOfBound: false,
           textStyle: {
-            color: () => `rgb(${Math.random() * 160}, ${Math.random() * 160}, ${Math.random() * 160})`,
-            emphasis: {
+            fontFamily: 'sans-serif',
+            fontWeight: 'bold',
+            color: () => {
+              return `rgb(${[
+                Math.round(Math.random() * 160),
+                Math.round(Math.random() * 160),
+                Math.round(Math.random() * 160)
+              ].join(',')})`;
+            }
+          },
+          emphasis: {
+            focus: 'self',
+            textStyle: {
               shadowBlur: 10,
               shadowColor: '#333'
             }
@@ -163,17 +280,71 @@ export default {
           data: this.wordData
         }]
       };
-      myChart.setOption(option);
+
+      chart.setOption(option);
+    },
+
+    handleResize() {
+      this.charts.forEach(chart => chart.resize());
     }
   },
   mounted() {
-    // 组件加载时获取数据并绘制图表
     this.fetchLikesData();
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+    this.charts.forEach(chart => chart.dispose());
   }
 }
 </script>
 
 <style scoped>
-/* 可根据需要自定义样式 */
-</style>
+.likes-analysis-container {
+  padding: 20px;
+  background-color: #f5f7fa;
+}
 
+.chart-row {
+  margin-top: 20px;
+}
+
+.chart-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.chart-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card-header i {
+  margin-right: 8px;
+  color: #409EFF;
+}
+
+.chart {
+  width: 100%;
+  height: 400px;
+}
+
+@media (max-width: 768px) {
+  .likes-analysis-container {
+    padding: 10px;
+  }
+
+  .chart {
+    height: 350px;
+  }
+}
+</style>

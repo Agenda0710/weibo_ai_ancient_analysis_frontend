@@ -43,7 +43,7 @@
             <el-menu-item-group>
               <el-menu-item index="4-1" @click="$router.push('/currentNewsAnalysis')">新闻快报</el-menu-item>
               <el-menu-item index="4-2" @click="$router.push('/currentPoliciesAnalysis')">政策要闻</el-menu-item>
-              <el-menu-item index="4-3" @click="$router.push('/hotSearchAnalysis')">热搜追踪</el-menu-item>
+<!--              <el-menu-item index="4-3" @click="$router.push('/hotSearchAnalysis')">热搜追踪</el-menu-item>-->
             </el-menu-item-group>
           </el-submenu>
 

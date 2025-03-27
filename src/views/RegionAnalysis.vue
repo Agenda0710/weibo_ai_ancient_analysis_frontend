@@ -1,27 +1,47 @@
 <template>
-  <div>
+  <div class="region-analysis-container">
     <!-- 文章地区分布图 -->
-    <el-row>
-      <el-card>
-        <el-col :span="24">
-          <div style="width:800px;height:600px;margin: 0 auto" ref="articleChart"></div>
-          <div style="text-align:center; margin-top:10px; font-size:14px; color:#666;">
+    <el-row :gutter="20">
+      <el-col :span="24">
+        <el-card class="map-card" shadow="hover">
+          <div slot="header" class="card-header">
+            <i class="el-icon-map-location"></i>
+            <span>文章IP发布分析图</span>
+            <el-button
+                type="text"
+                icon="el-icon-refresh"
+                @click="refreshData"
+                style="float: right; padding: 3px 0"
+            ></el-button>
+          </div>
+          <div ref="articleChart" class="map-container"></div>
+          <div class="map-footer">
             地图来源：阿里云DataV高德地图&nbsp;&nbsp;&nbsp;审图号：2022 高德软件 GS京(2022)1061号
           </div>
-        </el-col>
-      </el-card>
+        </el-card>
+      </el-col>
     </el-row>
 
     <!-- 评论地区分布图 -->
-    <el-row>
-      <el-card>
-        <el-col :span="24">
-          <div style="width:800px;height:600px;margin: 0 auto" ref="commentChart"></div>
-          <div style="text-align:center; margin-top:10px; font-size:14px; color:#666;">
-            地图来源：阿里云DataV高德地图 &nbsp;&nbsp;&nbsp;审图号：2022 高德软件 GS京(2022)1061号
+    <el-row :gutter="20" style="margin-top: 20px;">
+      <el-col :span="24">
+        <el-card class="map-card" shadow="hover">
+          <div slot="header" class="card-header">
+            <i class="el-icon-chat-line-square"></i>
+            <span>评论IP发布分析图</span>
+            <el-button
+                type="text"
+                icon="el-icon-refresh"
+                @click="refreshData"
+                style="float: right; padding: 3px 0"
+            ></el-button>
           </div>
-        </el-col>
-      </el-card>
+          <div ref="commentChart" class="map-container"></div>
+          <div class="map-footer">
+            地图来源：阿里云DataV高德地图&nbsp;&nbsp;&nbsp;审图号：2022 高德软件 GS京(2022)1061号
+          </div>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -35,162 +55,278 @@ export default {
   name: "RegionAnalysis",
   data() {
     return {
-      articleDataList: [],  // 文章地区统计数据
-      commentDataList: []   // 评论地区统计数据
+      articleDataList: [],
+      commentDataList: [],
+      charts: [],
+      loading: false
     }
   },
   methods: {
-    // 获取文章和评论的地区统计数据
     fetchAllRegionData() {
-      axios.get('/api/regionAnalysis/').then((response) => {
-        this.articleDataList = response.data.articleDataList;
-        this.commentDataList = response.data.commentDataList;
+      this.loading = true;
+      const articleChart = this.$refs.articleChart;
+      const commentChart = this.$refs.commentChart;
 
-        // 在数据加载完成后，绘制两个地图
-        this.drawArticleMap();
-        this.drawCommentMap();
-      });
+      echarts.getInstanceByDom(articleChart)?.showLoading();
+      echarts.getInstanceByDom(commentChart)?.showLoading();
+
+      axios.get('/api/regionAnalysis/')
+          .then((response) => {
+            this.articleDataList = response.data.articleDataList || [];
+            this.commentDataList = response.data.commentDataList || [];
+
+            this.$nextTick(() => {
+              this.drawArticleMap();
+              this.drawCommentMap();
+            });
+          })
+          .catch(error => {
+            this.$message.error('数据加载失败: ' + error.message);
+          })
+          .finally(() => {
+            this.loading = false;
+            echarts.getInstanceByDom(articleChart)?.hideLoading();
+            echarts.getInstanceByDom(commentChart)?.hideLoading();
+          });
     },
 
-    // 绘制文章的中国地图
+    initChart(dom) {
+      const chart = echarts.getInstanceByDom(dom) || echarts.init(dom);
+      this.charts.push(chart);
+      return chart;
+    },
+
     drawArticleMap() {
-      // 销毁已有的 ECharts 实例，避免重复初始化
-      if (echarts.getInstanceByDom(this.$refs["articleChart"])) {
-        echarts.dispose(this.$refs["articleChart"]);
-      }
+      const chart = this.initChart(this.$refs.articleChart);
+      const articleMapData = this.formatMapData(this.articleDataList, 'article_count');
+      const maxValue = Math.max(...articleMapData.map(item => item.value), 1);
 
-      var articleChart = echarts.init(this.$refs["articleChart"]);
-
-      // 将 articleDataList 转换为适合 ECharts 地图的格式
-      const articleMapData = this.articleDataList.map(item => {
-        const region = item.region ? item.region : '';
-        return {
-          name: region.trim(),
-          value: item.article_count
-        };
-      });
-
-      // 获取文章数的最大值
-      const maxArticleCount = Math.max(...articleMapData.map(item => item.value));
-
-      var articleOption = {
+      const option = {
         title: {
-          text: '文章IP发布分析图',
-          left: 'center'
+          text: '文章地区分布',
+          left: 'center',
+          textStyle: {
+            fontSize: 16,
+            color: '#333'
+          },
+          subtext: `总计 ${this.articleDataList.reduce((sum, item) => sum + item.article_count, 0)} 篇文章`,
+          subtextStyle: {
+            fontSize: 12,
+            color: '#666'
+          }
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{b}: {c}篇文章'  // 显示地区名称和文章数
+          formatter: params => {
+            return `${params.name}<br/>文章数: ${params.value || 0}篇<br/>占比: ${((params.value || 0) / maxValue * 100).toFixed(1)}%`;
+          }
         },
         visualMap: {
           min: 0,
-          max: maxArticleCount,  // 使用最大文章数作为 visualMap 的最大值
-          left: 'left',
+          max: maxValue,
+          left: 'right',
           top: 'bottom',
           text: ['高', '低'],
           calculable: true,
           inRange: {
-            color: ['#e0ffff', '#006edd']  // 颜色渐变
+            color: ['#e0f7fa', '#006064']
+          },
+          textStyle: {
+            color: '#666'
           }
         },
-        series: [
-          {
-            name: '文章数',
-            type: 'map',
-            map: 'China',  // 确保地图名称与注册的名称一致
+        series: [{
+          name: '文章数',
+          type: 'map',
+          map: 'China',
+          roam: true,
+          label: {
+            show: true,
+            color: '#333',
+            fontSize: 10
+          },
+          emphasis: {
             label: {
-              show: true
+              color: '#fff',
+              fontSize: 12
             },
-            data: articleMapData  // 使用转换后的 mapData 数据
-          }
-        ]
+            itemStyle: {
+              areaColor: '#006064'
+            }
+          },
+          data: articleMapData
+        }]
       };
 
-      // 设置文章地图的配置
-      articleChart.setOption(articleOption);
+      chart.setOption(option);
     },
 
-    // 绘制评论的中国地图
     drawCommentMap() {
-      // 销毁已有的 ECharts 实例，避免重复初始化
-      if (echarts.getInstanceByDom(this.$refs["commentChart"])) {
-        echarts.dispose(this.$refs["commentChart"]);
-      }
+      const chart = this.initChart(this.$refs.commentChart);
+      const commentMapData = this.formatMapData(this.commentDataList, 'comment_count');
+      const maxValue = Math.max(...commentMapData.map(item => item.value), 1);
 
-      var commentChart = echarts.init(this.$refs["commentChart"]);
-
-      // 将 commentDataList 转换为适合 ECharts 地图的格式
-      const commentMapData = this.commentDataList.map(item => {
-        const region = item.region ? item.region : '';
-        return {
-          name: region.trim(),
-          value: item.comment_count
-        };
-      });
-
-      // 获取评论数的最大值
-      const maxCommentCount = Math.max(...commentMapData.map(item => item.value));
-
-      var commentOption = {
+      const option = {
         title: {
-          text: '评论IP发布分析图',
-          left: 'center'
+          text: '评论地区分布',
+          left: 'center',
+          textStyle: {
+            fontSize: 16,
+            color: '#333'
+          },
+          subtext: `总计 ${this.commentDataList.reduce((sum, item) => sum + item.comment_count, 0)} 条评论`,
+          subtextStyle: {
+            fontSize: 12,
+            color: '#666'
+          }
         },
         tooltip: {
           trigger: 'item',
-          formatter: '{b}: {c}条评论'  // 显示地区名称和评论数
+          formatter: params => {
+            return `${params.name}<br/>评论数: ${params.value || 0}条<br/>占比: ${((params.value || 0) / maxValue * 100).toFixed(1)}%`;
+          }
         },
         visualMap: {
           min: 0,
-          max: maxCommentCount,  // 使用最大评论数作为 visualMap 的最大值
-          left: 'left',
+          max: maxValue,
+          left: 'right',
           top: 'bottom',
           text: ['高', '低'],
           calculable: true,
           inRange: {
-            color: ['#ffe0b2', '#ff5722']  // 颜色渐变
+            color: ['#ffebee', '#c62828']
+          },
+          textStyle: {
+            color: '#666'
           }
         },
-        series: [
-          {
-            name: '评论数',
-            type: 'map',
-            map: 'China',  // 确保地图名称与注册的名称一致
+        series: [{
+          name: '评论数',
+          type: 'map',
+          map: 'China',
+          roam: true,
+          label: {
+            show: true,
+            color: '#333',
+            fontSize: 10
+          },
+          emphasis: {
             label: {
-              show: true
+              color: '#fff',
+              fontSize: 12
             },
-            data: commentMapData  // 使用转换后的 commentMapData 数据
-          }
-        ]
+            itemStyle: {
+              areaColor: '#c62828'
+            }
+          },
+          data: commentMapData
+        }]
       };
 
-      // 设置评论地图的配置
-      commentChart.setOption(commentOption);
+      chart.setOption(option);
+    },
+
+    formatMapData(dataList, valueKey) {
+      return dataList.map(item => ({
+        name: item.region ? item.region.trim() : '未知',
+        value: item[valueKey] || 0
+      }));
+    },
+
+    refreshData() {
+      this.fetchAllRegionData();
+    },
+
+    handleResize() {
+      this.charts.forEach(chart => chart.resize());
     }
   },
-
   mounted() {
-    // 显示加载动画
-    const articleChart = echarts.init(this.$refs["articleChart"]);
-    const commentChart = echarts.init(this.$refs["commentChart"]);
-
-    articleChart.showLoading();
-    commentChart.showLoading();
-
-    // 获取地图数据并注册中国地图
-    getChineseMap.then(res => {
-      articleChart.hideLoading();
-      commentChart.hideLoading();
-
-      echarts.registerMap('China', res.data);  // 注册中国地图
-
-      // 获取统计数据
-      this.fetchAllRegionData();  // 在地图加载完成后再获取数据
+    const loading = this.$loading({
+      target: '.region-analysis-container',
+      text: '地图数据加载中...'
     });
+
+    getChineseMap.then(res => {
+      echarts.registerMap('China', res.data);
+      this.fetchAllRegionData();
+      loading.close();
+    }).catch(error => {
+      loading.close();
+      this.$message.error('地图数据加载失败: ' + error.message);
+    });
+
+    window.addEventListener('resize', this.handleResize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+    this.charts.forEach(chart => chart.dispose());
   }
 }
 </script>
 
 <style scoped>
-/* 可根据需要自定义样式 */
+.region-analysis-container {
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+.map-card {
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.map-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 15px 20px;
+}
+
+.card-header i {
+  margin-right: 8px;
+  color: #409EFF;
+}
+
+.map-container {
+  width: 100%;
+  height: 600px;
+}
+
+.map-footer {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #999;
+  padding: 10px 0;
+}
+
+@media (max-width: 992px) {
+  .map-container {
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .region-analysis-container {
+    padding: 10px;
+  }
+
+  .map-container {
+    height: 400px;
+  }
+
+  .card-header {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
 </style>

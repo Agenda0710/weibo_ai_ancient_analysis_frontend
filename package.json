@@ -17,6 +17,7 @@
     "echarts-wordcloud": "^2.1.0",
     "element-ui": "^2.15.14",
     "gltf-loader": "^1.0.0",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
     "three": "^0.174.0",
     "three-orbitcontrols": "^2.110.3",

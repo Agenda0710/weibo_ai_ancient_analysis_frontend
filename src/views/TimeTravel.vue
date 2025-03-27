@@ -6,11 +6,6 @@
     <div class="control-panel">
       <select v-model="selectedEra" @change="fetchTechData">
         <option value="all">全部时代</option>
-        <option value="pre_qin">先秦</option>
-        <option value="han_tang">汉唐</option>
-        <option value="song_yuan">宋元</option>
-        <option value="ming_qing">明清</option>
-        <option value="modern">现代</option>
       </select>
       <div class="tech-list">
         <div
