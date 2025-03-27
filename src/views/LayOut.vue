@@ -43,7 +43,7 @@
             <el-menu-item-group>
               <el-menu-item index="4-1" @click="$router.push('/currentNewsAnalysis')">新闻快报</el-menu-item>
               <el-menu-item index="4-2" @click="$router.push('/currentPoliciesAnalysis')">政策要闻</el-menu-item>
-<!--              <el-menu-item index="4-3" @click="$router.push('/hotSearchAnalysis')">热搜追踪</el-menu-item>-->
+              <!--              <el-menu-item index="4-3" @click="$router.push('/hotSearchAnalysis')">热搜追踪</el-menu-item>-->
             </el-menu-item-group>
           </el-submenu>
 
@@ -60,7 +60,7 @@
           <el-submenu index="6">
             <template slot="title"><i class="el-icon-monitor"></i>全景视图</template>
             <el-menu-item-group>
-<!--              <el-menu-item index="6-1" @click="$router.push('/collectData')">智能采集器</el-menu-item>-->
+              <!--              <el-menu-item index="6-1" @click="$router.push('/collectData')">智能采集器</el-menu-item>-->
               <el-menu-item index="6-2" @click="$router.push('/dataViews')">数据大屏</el-menu-item>
             </el-menu-item-group>
           </el-submenu>

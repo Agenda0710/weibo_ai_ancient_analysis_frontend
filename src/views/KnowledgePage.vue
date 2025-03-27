@@ -21,8 +21,8 @@
                 中国古代在天文学、数学、医学、农学等领域取得了辉煌成就：
               </p>
               <ul class="feature-list">
-                <li><i class="el-icon-astronomy"></i> <strong>天文学：</strong>发明了浑天仪、地动仪等天文仪器</li>
-                <li><i class="el-icon-calculator"></i> <strong>数学：</strong>《九章算术》奠定了古代数学的基础</li>
+                <li><i class="el-icon-star-on"></i> <strong>天文学：</strong>发明了浑天仪、地动仪等天文仪器</li>
+                <li><i class="el-icon-s-grid"></i> <strong>数学：</strong>《九章算术》奠定了古代数学的基础</li>
                 <li><i class="el-icon-first-aid-kit"></i> <strong>医学：</strong>《黄帝内经》奠定了中医理论体系</li>
                 <li><i class="el-icon-grape"></i> <strong>农学：</strong>《齐民要术》总结了古代农业技术</li>
               </ul>
