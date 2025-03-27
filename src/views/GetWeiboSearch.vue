@@ -152,36 +152,16 @@
       </el-col>
     </el-row>
 
-    <!-- AI解读部分 -->
-    <el-row v-if="selectedWord" class="analysis-row">
+    <!-- AI解读部分 - 简化版 -->
+    <el-row v-if="selectedWord && aiInterpretations" class="analysis-row">
       <el-col :span="24">
         <el-card v-loading="loading" class="analysis-card" shadow="hover">
           <div slot="header" class="card-header">
             <h3><i class="el-icon-data-analysis"></i> AI深度解读分析</h3>
           </div>
           <div class="analysis-content">
-            <div v-if="parsedAiInterpretations.length > 0">
-              <div
-                  v-for="(section, index) in parsedAiInterpretations"
-                  :key="index"
-                  class="analysis-section"
-              >
-                <h4 class="section-title">
-                  <i class="el-icon-arrow-right"></i> {{ section.title }}
-                </h4>
-                <div class="section-content">
-                  <p v-if="section.summary" class="summary">{{ section.summary }}</p>
-                  <ul v-if="section.points.length > 0" class="point-list">
-                    <li v-for="(point, pIndex) in section.points" :key="pIndex" class="point-item">
-                      <span class="point-index">{{ pIndex + 1 }}.</span>
-                      <span class="point-text">{{ point }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div v-else class="no-data">
-              <i class="el-icon-warning"></i> 暂无AI解读数据
+            <div class="ai-text-content">
+              {{ aiInterpretations }}
             </div>
           </div>
         </el-card>
@@ -227,74 +207,6 @@ export default {
       sentimentStats: {},
       loading: true,
     };
-  },
-  computed: {
-    parsedAiInterpretations() {
-      if (!this.aiInterpretations) return [];
-
-      try {
-        if (this.aiInterpretations.startsWith('{') || this.aiInterpretations.startsWith('[')) {
-          return JSON.parse(this.aiInterpretations);
-        }
-
-        const sections = [];
-        const rawText = this.aiInterpretations;
-
-        const currentMatch = rawText.match(/现状分析[:：]?(.*?)(?=预测未来|趋势分析|$)/s);
-        if (currentMatch && currentMatch[1].trim()) {
-          sections.push({
-            title: '现状分析',
-            summary: this.cleanText(currentMatch[1].trim()),
-            points: []
-          });
-        }
-
-        const trendMatch = rawText.match(/(预测未来|趋势分析)[:：]?(.*?)(?=潜在发展方向|发展建议|$)/s);
-        if (trendMatch && trendMatch[2].trim()) {
-          sections.push({
-            title: '趋势预测',
-            summary: this.cleanText(trendMatch[2].trim()),
-            points: []
-          });
-        }
-
-        const developmentMatch = rawText.match(/(潜在发展方向|发展建议)[:：]?(.*?)(?=综上所述|总结|$)/s);
-        if (developmentMatch && developmentMatch[2].trim()) {
-          const points = developmentMatch[2]
-              .split(/[，；。、\n]/)
-              .map(p => this.cleanText(p.trim()))
-              .filter(p => p && !p.startsWith('包括'));
-
-          sections.push({
-            title: '发展方向',
-            summary: '',
-            points: points
-          });
-        }
-
-        const summaryMatch = rawText.match(/(综上所述|总结)[:：]?(.*)/s);
-        if (summaryMatch && summaryMatch[2].trim()) {
-          sections.push({
-            title: '总结',
-            summary: this.cleanText(summaryMatch[2].trim()),
-            points: []
-          });
-        }
-
-        return sections.length > 0 ? sections : [{
-          title: '综合分析',
-          summary: this.cleanText(rawText),
-          points: []
-        }];
-      } catch (e) {
-        console.error('解析AI解读失败:', e);
-        return [{
-          title: '综合分析',
-          summary: this.cleanText(this.aiInterpretations),
-          points: []
-        }];
-      }
-    }
   },
   methods: {
     cleanText(text) {
@@ -608,85 +520,15 @@ export default {
 }
 
 .analysis-content {
-  padding: 20px 24px;
-  flex: 1;
-  background-color: #fff;
-  border-radius: 0 0 12px 12px;
+  padding: 20px;
 }
 
-.analysis-section {
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #f0f2f5;
-}
-
-.analysis-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.section-title {
-  color: #409EFF;
-  font-size: 16px;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-}
-
-.section-title i {
-  margin-right: 8px;
-  font-size: 18px;
-}
-
-.summary {
+.ai-text-content {
   font-size: 14px;
   line-height: 1.8;
   color: #333;
-  margin-bottom: 12px;
   text-align: justify;
-}
-
-.point-list {
-  padding-left: 20px;
-  margin: 0;
-}
-
-.point-item {
-  margin-bottom: 10px;
-  line-height: 1.6;
-  color: #606266;
-  list-style-type: none;
-  display: flex;
-  align-items: flex-start;
-  position: relative;
-}
-
-.point-index {
-  color: #67C23A;
-  font-weight: bold;
-  margin-right: 8px;
-  flex-shrink: 0;
-}
-
-.point-text {
-  flex: 1;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.no-data {
-  text-align: center;
-  color: #909399;
-  padding: 40px 0;
-  font-size: 14px;
-}
-
-.no-data i {
-  margin-right: 8px;
-  font-size: 16px;
+  white-space: pre-line;
 }
 
 .chart-container {
@@ -700,13 +542,12 @@ export default {
   min-height: 300px;
 }
 
-/* 新增的间距调整部分 */
 .analysis-row {
-  margin-bottom: 30px; /* 增加AI解读卡片与下方图表卡片的间距 */
+  margin-bottom: 30px;
 }
 
 .chart-row {
-  margin-top: 10px; /* 确保图表卡片与上方内容有适当间距 */
+  margin-top: 10px;
 }
 
 /* 响应式调整 */
@@ -715,20 +556,8 @@ export default {
     padding: 15px;
   }
 
-  .card-header h3 {
-    font-size: 16px;
-  }
-
-  .section-title {
-    font-size: 15px;
-  }
-
   .chart-container {
     height: 350px;
-  }
-
-  .analysis-row {
-    margin-bottom: 25px;
   }
 }
 
@@ -748,10 +577,6 @@ export default {
 
   .chart-container {
     height: 300px;
-  }
-
-  .analysis-row {
-    margin-bottom: 20px;
   }
 }
 </style>
