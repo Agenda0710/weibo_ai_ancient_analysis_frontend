@@ -30,7 +30,7 @@
             <el-menu-item-group>
               <el-menu-item index="3-1" @click="$router.push('/tech-hotspot-graph')">文化焦点图谱</el-menu-item>
               <el-menu-item index="3-2" @click="$router.push('/articleContentWordCloud')">内容词云</el-menu-item>
-              <el-menu-item index="3-3" @click="$router.push('/sentimentAnalysis')">舆情研判</el-menu-item>
+<!--              <el-menu-item index="3-3" @click="$router.push('/sentimentAnalysis')">舆情研判</el-menu-item>-->
               <el-menu-item index="3-4" @click="$router.push('/getWeiboSearch')">专题聚焦</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
