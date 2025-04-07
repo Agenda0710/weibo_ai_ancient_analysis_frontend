@@ -40,38 +40,61 @@
       </el-col>
     </el-row>
 
-    <!-- AI解读部分 -->
+
     <el-row :gutter="20" class="analysis-row">
       <el-col :span="24">
         <el-card class="analysis-card" shadow="hover">
           <div slot="header" class="card-header">
-            <h3><i class="el-icon-connection"></i> AI政策解读</h3>
+            <h3><i class="el-icon-connection"></i> 国务院文件</h3>
           </div>
           <el-skeleton :loading="loading" animated>
-            <div v-if="aiAnalysis" class="analysis-content">
-              <div class="analysis-section" v-for="(section, index) in parsedAnalysis" :key="index">
-                <h4 class="section-title">{{ section.title }}</h4>
-                <ul class="section-points">
-                  <li v-for="(point, pIndex) in section.points" :key="pIndex" class="point-item">
-                    <i class="el-icon-caret-right"></i> {{ point }}
-                  </li>
-                </ul>
-              </div>
-              <div class="action-buttons">
-                <el-button
-                    type="primary"
-                    icon="el-icon-data-line"
-                    @click="showTreeChart"
-                    class="tree-button"
-                >
-                  国务院文件展示
-                </el-button>
-              </div>
+            <div class="action-buttons">
+              <el-button
+                  type="primary"
+                  icon="el-icon-data-line"
+                  @click="showTreeChart"
+                  class="tree-button"
+              >
+                国务院文件展示
+              </el-button>
             </div>
           </el-skeleton>
         </el-card>
       </el-col>
     </el-row>
+
+<!--    &lt;!&ndash; AI解读部分 &ndash;&gt;-->
+<!--    <el-row :gutter="20" class="analysis-row">-->
+<!--      <el-col :span="24">-->
+<!--        <el-card class="analysis-card" shadow="hover">-->
+<!--          <div slot="header" class="card-header">-->
+<!--            <h3><i class="el-icon-connection"></i> AI政策解读</h3>-->
+<!--          </div>-->
+<!--          <el-skeleton :loading="loading" animated>-->
+<!--            <div v-if="aiAnalysis" class="analysis-content">-->
+<!--              <div class="analysis-section" v-for="(section, index) in parsedAnalysis" :key="index">-->
+<!--                <h4 class="section-title">{{ section.title }}</h4>-->
+<!--                <ul class="section-points">-->
+<!--                  <li v-for="(point, pIndex) in section.points" :key="pIndex" class="point-item">-->
+<!--                    <i class="el-icon-caret-right"></i> {{ point }}-->
+<!--                  </li>-->
+<!--                </ul>-->
+<!--              </div>-->
+<!--              <div class="action-buttons">-->
+<!--                <el-button-->
+<!--                    type="primary"-->
+<!--                    icon="el-icon-data-line"-->
+<!--                    @click="showTreeChart"-->
+<!--                    class="tree-button"-->
+<!--                >-->
+<!--                  国务院文件展示-->
+<!--                </el-button>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </el-skeleton>-->
+<!--        </el-card>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
     <!-- 树形图弹出框 -->
     <el-dialog

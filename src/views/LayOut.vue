@@ -55,12 +55,12 @@
           </el-submenu>
 
           <!-- 全景视图 -->
-          <el-submenu index="6">
-            <template slot="title"><i class="el-icon-monitor"></i>全景视图</template>
-            <el-menu-item-group>
-              <el-menu-item index="6-1" @click="$router.push('/dataViews')">数据大屏</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+<!--          <el-submenu index="6">-->
+<!--            <template slot="title"><i class="el-icon-monitor"></i>全景视图</template>-->
+<!--            <el-menu-item-group>-->
+<!--              <el-menu-item index="6-1" @click="$router.push('/dataViews')">数据大屏</el-menu-item>-->
+<!--            </el-menu-item-group>-->
+<!--          </el-submenu>-->
         </el-menu>
       </el-aside>
 

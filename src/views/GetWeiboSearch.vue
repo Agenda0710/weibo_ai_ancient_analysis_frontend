@@ -153,20 +153,20 @@
     </el-row>
 
     <!-- AI解读部分 - 简化版 -->
-    <el-row v-if="selectedWord && aiInterpretations" class="analysis-row">
-      <el-col :span="24">
-        <el-card v-loading="loading" class="analysis-card" shadow="hover">
-          <div slot="header" class="card-header">
-            <h3><i class="el-icon-data-analysis"></i> AI深度解读分析</h3>
-          </div>
-          <div class="analysis-content">
-            <div class="ai-text-content">
-              {{ aiInterpretations }}
-            </div>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+<!--    <el-row v-if="selectedWord && aiInterpretations" class="analysis-row">-->
+<!--      <el-col :span="24">-->
+<!--        <el-card v-loading="loading" class="analysis-card" shadow="hover">-->
+<!--          <div slot="header" class="card-header">-->
+<!--            <h3><i class="el-icon-data-analysis"></i> AI深度解读分析</h3>-->
+<!--          </div>-->
+<!--          <div class="analysis-content">-->
+<!--            <div class="ai-text-content">-->
+<!--              {{ aiInterpretations }}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </el-card>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
     <!-- 图表部分 -->
     <el-row :gutter="20" v-if="selectedWord" class="chart-row">
