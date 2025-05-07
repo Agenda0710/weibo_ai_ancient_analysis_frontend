@@ -199,7 +199,7 @@ export default {
   data() {
     return {
       form: {},
-      articleTypeList: ['非遗', '中华传统', '古代发明', '传统节日', '文化遗产', '民间艺术'],
+      articleTypeList: ['上海非遗', '中华传统', '古代发明', '传统节日', '文化保护', '民间艺术'],
       selectedWord: '',
       hotQueries: [],
       weiboArticles: [],
