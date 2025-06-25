@@ -12,6 +12,7 @@ module.exports = defineConfig({
     },
     devServer: {
         port: 7070,
+        allowedHosts: "all", //  允许所有 Host
         proxy: {
             '/api': {
                 target: 'http://localhost:8000',

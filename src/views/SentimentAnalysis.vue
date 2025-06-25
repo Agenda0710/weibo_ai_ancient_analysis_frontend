@@ -114,27 +114,67 @@ export default {
     Object.values(this.charts).forEach(chart => chart && chart.dispose());
   },
   methods: {
-    fetchData() {
+    async fetchData() {
       this.loading = true;
-      axios.get('/api/sentimentAnalysis/')
-          .then(response => {
-            this.keywordsSentimentData = response.data.keywords_sentiment || { positive: 0, neutral: 0, negative: 0 };
-            this.articleSentimentData = response.data.article_sentiment || { positive: 0, neutral: 0, negative: 0 };
-            this.commentSentimentData = response.data.comment_sentiment || { positive: 0, neutral: 0, negative: 0 };
-            this.topKeywordsData = response.data.top_keywords || [];
+      try {
+        // 1. 发起分析请求
+        const response = await axios.get('/api/sentimentAnalysis/');
 
-            this.initKeywordsSentimentChart();
-            this.initTreeMapChart();
-            this.initNestedPieChart();
-            this.initKeywordsBarChart();
-          })
-          .catch(error => {
-            this.$message.error('数据加载失败: ' + error.message);
-            console.error('Error fetching data:', error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
+        // 2. 判断响应类型
+        if (response.status === 200 && response.data.from_cache) {
+          // 直接使用缓存结果
+          this.processResult(response.data.result);
+        } else if (response.status === 202) {
+          // 需要轮询的任务
+          const result = await this.pollTaskStatus(response.data.task_id);
+          this.processResult(result);
+        }
+      } catch (error) {
+        this.$message.error('数据加载失败: ' + error.message);
+        console.error('Error fetching data:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+// 提取结果处理逻辑
+    processResult(result) {
+      this.keywordsSentimentData = result.keywords_sentiment || { positive: 0, neutral: 0, negative: 0 };
+      this.articleSentimentData = result.article_sentiment || { positive: 0, neutral: 0, negative: 0 };
+      this.commentSentimentData = result.comment_sentiment || { positive: 0, neutral: 0, negative: 0 };
+      this.topKeywordsData = result.top_keywords || [];
+
+      this.initKeywordsSentimentChart();
+      this.initTreeMapChart();
+      this.initNestedPieChart();
+      this.initKeywordsBarChart();
+    },
+
+    //新增轮询方法
+    pollTaskStatus(taskId, interval = 1000, timeout = 30000) {
+      return new Promise((resolve, reject) => {
+        const startTime = Date.now();
+
+        const checkStatus = async () => {
+          try {
+            const response = await axios.get(`/api/sentimentAnalysis/${taskId}/`);
+
+            if (response.data.status === 'completed') {
+              resolve(response.data.result);
+            } else if (response.data.status === 'failed') {
+              reject(new Error(response.data.error || '任务处理失败'));
+            } else if (Date.now() - startTime > timeout) {
+              reject(new Error('请求超时'));
+            } else {
+              setTimeout(checkStatus, interval);
+            }
+          } catch (error) {
+            reject(error);
+          }
+        };
+
+        checkStatus();
+      });
     },
     initKeywordsSentimentChart() {
       const chartDom = this.$refs.keywordsSentimentChart;

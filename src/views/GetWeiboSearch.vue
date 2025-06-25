@@ -199,7 +199,7 @@ export default {
   data() {
     return {
       form: {},
-      articleTypeList: ['上海非遗', '中华传统', '古代发明', '传统节日', '文化保护', '民间艺术'],
+      articleTypeList: ['非物质文化遗产', '古代发明', '传统节日', '文化保护', '民间艺术'],
       selectedWord: '',
       hotQueries: [],
       weiboArticles: [],
@@ -216,8 +216,20 @@ export default {
     async fetchArticleTypeData() {
       this.loading = true;
       if (!this.selectedWord) return;
+
       try {
-        const response = await axios.post("/api/weiboSearchAnalysis/", {keyword: this.selectedWord});
+        const response = await axios.post("/api/weiboSearchAnalysis/", {
+          keyword: this.selectedWord
+        });
+
+        // 处理数据前先检查锁定状态
+        if (response.data.status === "locked") {
+          this.showLockNotification(response.data.message);
+          this.loading = false;
+          return;
+        }
+
+        // 其余处理逻辑不变
         this.hotQueries = response.data.hot_queries.map((item, index) => ({
           ...item,
           index: index + 1
@@ -231,14 +243,19 @@ export default {
 
         this.renderSentimentChart();
         this.renderWordCloud(response.data.word_frequencies);
-        this.loading = false;
 
+      } catch (error) {
+        if (error.response && error.response.data.status === "locked") {
+          this.showLockNotification(error.response.data.message);
+        } else {
+          console.error("数据加载失败:", error);
+          this.$message.error("数据加载失败: " + (error.response?.data?.message || error.message));
+        }
+      } finally {
+        this.loading = false;
         this.$nextTick(() => {
           this.adjustTableHeights();
         });
-      } catch (error) {
-        console.error("数据加载失败:", error);
-        this.loading = false;
       }
     },
 
@@ -254,6 +271,28 @@ export default {
         leftTable.style.height = `${maxHeight}px`;
         rightTable.style.height = `${maxHeight}px`;
       }
+    },
+
+    showLockNotification(message) {
+      // 创建自定义HTML内容
+      const customHTML = `
+        <div class="scary-notification">
+          <div class="giant-exclamation">!</div>
+          <div class="scary-message">${message}</div>
+        </div>
+      `;
+
+      this.$notify({
+        title: '⚠️ 警告！请求被锁定 ⚠️',  // 移除了HTML标签
+        dangerouslyUseHTMLString: true,
+        message: customHTML,
+        type: 'warning',
+        position: 'center',  // 改为居中位置
+        duration: 0,
+        showClose: true,
+        offset: 0,  // 移除偏移量
+        customClass: 'giant-notification'
+      });
     },
 
     viewMore() {
@@ -405,8 +444,8 @@ export default {
       if (rank <= 3) return 'danger';
       if (rank <= 6) return 'warning';
       return 'info';
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -577,6 +616,102 @@ export default {
 
   .chart-container {
     height: 300px;
+  }
+}
+</style>
+
+
+<style>
+/* 全局样式 - 只影响通知组件 */
+.giant-notification {
+  width: 800px !important; /* 宽度增加到800px */
+  min-height: 500px !important; /* 高度增加到500px */
+  font-size: 30px !important; /* 基础字体增大 */
+  border: 5px solid #ff0000 !important; /* 边框加粗 */
+  box-shadow: 0 0 50px red !important; /* 阴影增大 */
+  animation: shake 0.8s cubic-bezier(.36, .07, .19, .97) both; /* 延长震动时间 */
+  transform: translate3d(0, 0, 0);
+  position: fixed !important; /* 改为fixed定位 */
+  top: 50% !important; /* 垂直居中 */
+  left: 50% !important; /* 水平居中 */
+  transform: translate(-50%, -50%) !important; /* 居中定位 */
+  margin-top: 0 !important; /* 移除默认margin */
+  margin-left: 0 !important; /* 移除默认margin */
+  z-index: 99999 !important; /* 确保在最顶层 */
+}
+
+/* 确保关闭按钮可见 */
+.giant-notification .el-notification__closeBtn {
+  top: 15px !important;
+  right: 15px !important;
+  font-size: 24px !important;
+  z-index: 100000 !important;
+}
+
+.giant-notification .el-notification__content {
+  margin: 0 !important;
+}
+
+.giant-notification .el-notification__title {
+  font-size: 30px !important;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px !important;
+  color: #8b0000 !important;
+}
+
+.scary-notification {
+  text-align: center;
+  padding: 20px;
+}
+
+.giant-exclamation {
+  font-size: 120px !important; /* 减小感叹号大小 */
+  font-weight: 900;
+  color: #ff0000;
+  text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+  line-height: 1;
+  animation: pulse 1.5s infinite;
+  margin: 10px 0;
+}
+
+.scary-message {
+  font-size: 28px !important; /* 减小字体大小 */
+  font-weight: bold;
+  color: #8B0000;
+  line-height: 1.8 !important; /* 增加行高 */
+  margin: 20px 0;
+  padding: 15px;
+  border: 2px dashed #ff0000;
+  border-radius: 10px;
+  background-color: rgba(255, 200, 200, 0.2);
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+/* 震动动画 */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+/* 脉动动画 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>
